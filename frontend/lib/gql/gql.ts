@@ -13,8 +13,9 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  * Therefore it is highly recommended to use the babel or swc plugin for production.
  */
 const documents = {
-    "mutation createParticipant(\n$args: CreateParticipantInput!\n) {\n createParticipant(\n  args: $args\n  ) {\n    id\n  }\n}": types.CreateParticipantDocument,
+    "mutation createParticipant(\n$args: CreateParticipantInput!\n) {\n createParticipant(\n  args: $args\n  ) {\n    id\n    name\n    email\n  }\n}": types.CreateParticipantDocument,
     "mutation createParty(\n  $title: String\n  $description: String\n  $location: String\n  $date: String\n) {\n createParty(\n  title: $title\n  description: $description\n  location: $location\n  date: $date\n  ) {\n    id\n  }\n}": types.CreatePartyDocument,
+    "subscription createdParticipant(\n  $partyId: String!\n) {\n createdParticipant(\n  partyId: $partyId\n  ) {\n    name\n    email\n    invitationSent\n  }\n}": types.CreatedParticipantDocument,
     "mutation deleteParticipant(\n  $partyId: String!\n  $id: String!\n) {\n deleteParticipant(\n  partyId: $partyId\n  id: $id\n  ) {\n    id\n  }\n}": types.DeleteParticipantDocument,
     "mutation deleteParty(\n  $id: String!\n) {\n deleteParty(\n  id: $id\n  ) {\n    id\n  }\n}": types.DeletePartyDocument,
     "query getParticipant(\n  $partyId: String!\n  $id: String!\n) {\n getParticipant(\n  partyId: $partyId\n  id: $id\n  ) {\n    name\n    email\n    invitationSent\n  }\n}": types.GetParticipantDocument,
@@ -41,11 +42,15 @@ export function graphql(source: string): unknown;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "mutation createParticipant(\n$args: CreateParticipantInput!\n) {\n createParticipant(\n  args: $args\n  ) {\n    id\n  }\n}"): (typeof documents)["mutation createParticipant(\n$args: CreateParticipantInput!\n) {\n createParticipant(\n  args: $args\n  ) {\n    id\n  }\n}"];
+export function graphql(source: "mutation createParticipant(\n$args: CreateParticipantInput!\n) {\n createParticipant(\n  args: $args\n  ) {\n    id\n    name\n    email\n  }\n}"): (typeof documents)["mutation createParticipant(\n$args: CreateParticipantInput!\n) {\n createParticipant(\n  args: $args\n  ) {\n    id\n    name\n    email\n  }\n}"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "mutation createParty(\n  $title: String\n  $description: String\n  $location: String\n  $date: String\n) {\n createParty(\n  title: $title\n  description: $description\n  location: $location\n  date: $date\n  ) {\n    id\n  }\n}"): (typeof documents)["mutation createParty(\n  $title: String\n  $description: String\n  $location: String\n  $date: String\n) {\n createParty(\n  title: $title\n  description: $description\n  location: $location\n  date: $date\n  ) {\n    id\n  }\n}"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "subscription createdParticipant(\n  $partyId: String!\n) {\n createdParticipant(\n  partyId: $partyId\n  ) {\n    name\n    email\n    invitationSent\n  }\n}"): (typeof documents)["subscription createdParticipant(\n  $partyId: String!\n) {\n createdParticipant(\n  partyId: $partyId\n  ) {\n    name\n    email\n    invitationSent\n  }\n}"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

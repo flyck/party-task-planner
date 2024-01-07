@@ -7,6 +7,8 @@ $args: CreateParticipantInput!
   args: $args
   ) {
     id
+    name
+    email
   }
 }`
 
