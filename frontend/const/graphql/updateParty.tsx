@@ -15,6 +15,10 @@ const updateParty = gql`mutation updateParty(
   date: $date
   ) {
     id
+    title
+    description
+    location
+    date
   }
 }`
 

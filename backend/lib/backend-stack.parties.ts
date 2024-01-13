@@ -19,6 +19,7 @@ export function createPartyResolvers(stack: cdk.Stack, api: appsync.GraphqlApi, 
 
   // Make the update respect existing data. First resolver is a javascript resolver as well since
   // javascript resolvers and templates cannot be mixed within the same pipeline
+  // TODO switch to updateItem https://dev.to/aws/20-days-of-dynamodb-day-4-conditional-updateitem-dac
   const UpdatePartyF1 = new appsync.AppsyncFunction(stack, "updatePartyF1", {
     api,
     name: "UpdatePartyGet",

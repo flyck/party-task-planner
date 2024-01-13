@@ -6,7 +6,11 @@ $args: UpdateParticipantInput!
  updateParticipant(
   args: $args
   ) {
+    partyId
     id
+    name
+    email
+    invitationSent
   }
 }`
 

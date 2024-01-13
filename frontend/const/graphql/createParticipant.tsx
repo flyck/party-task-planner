@@ -6,7 +6,11 @@ $args: CreateParticipantInput!
  createParticipant(
   args: $args
   ) {
+    partyId
     id
+    name
+    email
+    invitationSent
   }
 }`
 

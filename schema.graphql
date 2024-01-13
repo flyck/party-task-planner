@@ -73,7 +73,19 @@ type Mutation {
   deleteParticipant(partyId: String!, id: String!): Participant
 }
 
+type Subscription {
+  updatedParty(id: String!): Party
+  @aws_subscribe(mutations: ["updateParty"])
+  createdParticipant(partyId: String!): Participant
+  @aws_subscribe(mutations: ["createParticipant"])
+  updatedParticipant(partyId: String!): Participant
+  @aws_subscribe(mutations: ["updateParticipant"])
+  deletedParticipant(partyId: String!): Participant
+  @aws_subscribe(mutations: ["deleteParticipant"])
+}
+
 schema {
   query: Query
   mutation: Mutation
+  subscription: Subscription
 }

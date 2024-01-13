@@ -6,7 +6,7 @@ In this app I want to try a bunch of new things:
 - [x] Vercel for frontend hosting
 - [x] Automated releases with github actions
 - [x] Appsync javascript resolvers
-- [ ] Appsync subscriptions for real-time updates everywhere
+- [x] Appsync subscriptions for real-time updates everywhere
 - [ ] Playwright frontend tests
 - [ ] HTMX instead of react & apollo
 
@@ -37,3 +37,11 @@ Should I use more SSR for my app?
 - Would be nice to have an auto-increment id for the participants
 - Is it annoying that the participants have the partyId as the PK? Maybe in some hypothetical
   support cases, but there could be work-arounds for these
+
+## AppSync Subscriptions
+
+- To use it with apollo a certain package is needed
+  - This package has a pending issue for which there is a patch
+    - Could also be solved by [delaying the init](https://github.com/awslabs/aws-mobile-appsync-sdk-js/issues/491#issuecomment-671469907)
+  - This package has a missing dependency on "uuid", which is why I added it as a frontend project
+    dependency: [hint](https://github.com/awslabs/aws-mobile-appsync-sdk-js/issues/695)

@@ -1,10 +1,10 @@
-import React from "react"
+import React, { useEffect } from "react"
 import AppLayout from "@/components/appLayout"
 import SubmitButton from "@/components/ui/minis/submitButton";
 import Input from "@/components/ui/minis/input";
 import { useForm } from 'react-hook-form';
-import { useMutation, useQuery } from "@apollo/client";
-import { DeletePartyDocument, DeletePartyMutation, DeletePartyMutationVariables, GetPartyDocument, GetPartyQuery, GetPartyQueryVariables, UpdatePartyDocument, UpdatePartyMutation, UpdatePartyMutationVariables } from "@/lib/gql/graphql";
+import { useMutation, useQuery, useSubscription } from "@apollo/client";
+import { DeletePartyDocument, DeletePartyMutation, DeletePartyMutationVariables, GetPartyDocument, GetPartyQuery, GetPartyQueryVariables, Party, UpdatePartyDocument, UpdatePartyMutation, UpdatePartyMutationVariables, UpdatedPartyDocument, UpdatedPartySubscription, UpdatedPartySubscriptionVariables } from "@/lib/gql/graphql";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
 
@@ -14,14 +14,10 @@ import { useRouter } from "next/router";
  */
 
 const PartyDetails: React.FC<{}> = () => {
-  const [hydrated, setHydrated] = React.useState(false);
   const router = useRouter();
   const id = router.query.partyId as string
   const {
     register,
-    handleSubmit,
-    formState: { errors },
-    reset,
     getValues,
     setValue,
   } = useForm();
@@ -53,20 +49,29 @@ const PartyDetails: React.FC<{}> = () => {
     variables: { id },
   });
 
-  //https://stackoverflow.com/questions/72673362/error-text-content-does-not-match-server-rendered-html
-  React.useEffect(() => {
-    setHydrated(true);
-  }, []);
-  if (!hydrated) {
-    // Returns null on first render, so the client and server match
-    return null;
-  }
+  const { data: updatedPartyData, error: updatedPartyError } = useSubscription<UpdatedPartySubscription, UpdatedPartySubscriptionVariables>(UpdatedPartyDocument, {
+    variables: { id },
+  });
+
+  useEffect(() => {
+    if (updatedPartyError) {
+      console.error("Error from subscription: " + JSON.stringify(updatedPartyError))
+      toast.error("Error in live update.")
+    }
+    if (updatedPartyData) {
+      const { date, description, location, title } = updatedPartyData.updatedParty as Party
+      setValue("title", title)
+      setValue("location", location)
+      setValue("description", description)
+      setValue("date", date)
+    }
+  }, [updatedPartyData, updatedPartyError])
 
   const submit = async (event: React.FormEvent) => {
     event.preventDefault();
     console.log(getValues());
     try {
-      const { data, errors } = await updateParty({
+      const { errors } = await updateParty({
         variables: { id, ...getValues() }
       })
       if (errors != undefined) { throw "Found an error: " + JSON.stringify(errors) }
@@ -92,20 +97,20 @@ const PartyDetails: React.FC<{}> = () => {
   return (<AppLayout title="Details" left={""} right={`${id}/participants`}>
     <form onSubmit={(event) => submit(event)}>
       <Input title="Title" props={{
-        type: "text", onFocus: () => redirect(),
+        type: "text",
         required: true,
         ...register("title")
       }} />
       <Input title="Where" props={{
-        type: "text", onFocus: () => redirect(),
+        type: "text",
         ...register("location")
       }} />
       <Input title="When" props={{
-        type: "text", onFocus: () => redirect(),
+        type: "text",
         ...register("date")
       }} />
       <Input title="Description" props={{
-        type: "text", onFocus: () => redirect(),
+        type: "text",
         ...register("description")
       }} />
       <div className="p-2">
@@ -113,22 +118,10 @@ const PartyDetails: React.FC<{}> = () => {
           Delete
         </button>
       </div>
-      <SubmitButton loading={updatePartyLoading} props={{ disabled: isUserSet() }} />
+      <SubmitButton loading={updatePartyLoading} />
     </form>
   </AppLayout>
   )
 }
-
-function redirect() {
-  isUserSet() ? window.location.assign("/editUser?showInfo=true") : undefined
-}
-
-function isUserSet() {
-  const userName = window.localStorage.getItem("userName")
-  const userEmail = window.localStorage.getItem("userEmail")
-
-  return (!userName || !userEmail)
-}
-
 
 export default PartyDetails
