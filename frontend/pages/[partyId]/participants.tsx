@@ -40,7 +40,7 @@ const Participants: React.FC<{}> = () => {
   useEffect(() => {
     if (newParticipantError) {
       console.error("Error from subscription: " + JSON.stringify(newParticipantError))
-      // TODO toast
+      toast.error("Error in live update.")
     }
     if (newParticipantData) {
       const newP: Participant = newParticipantData?.createdParticipant as Participant
@@ -51,7 +51,7 @@ const Participants: React.FC<{}> = () => {
   useEffect(() => {
     if (deletedParticipantError) {
       console.error("Error from subscription: " + JSON.stringify(newParticipantError))
-      // TODO toast
+      toast.error("Error in live update.")
     }
     if (deletedParticipantData) {
       const deletedP: Participant = deletedParticipantData?.deletedParticipant as Participant
@@ -62,7 +62,7 @@ const Participants: React.FC<{}> = () => {
   useEffect(() => {
     if (updatedParticipantError) {
       console.error("Error from subscription: " + JSON.stringify(newParticipantError))
-      // TODO toast
+      toast.error("Error in live update.")
     }
     if (updatedParticipantData) {
       const updatedP: Participant = updatedParticipantData?.updatedParticipant as Participant
@@ -78,13 +78,19 @@ const Participants: React.FC<{}> = () => {
 
 
   return (<AppLayout title="Participants" left={`/${partyId}`} right={""}>
-    {participants.map((guy) => userElement(guy as Participant, partyId))}
+    {sortedParticipants(participants).map((guy) => getUserElement(guy, partyId))}
     <SubmitButton props={{ onClick: () => window.location.assign(`/${partyId}/participants/create`) }} text="+" />
   </AppLayout>
   )
 }
 
-function userElement(guy: Participant, partyId: String) {
+function sortedParticipants(list: readonly Participant[]) {
+  const newList = [...list]
+  newList.sort((a, b) => a.id!.localeCompare(b.id!))
+  return newList
+}
+
+function getUserElement(guy: Participant, partyId: String) {
   return <a key={guy.id} href={`/${partyId}/participants/${guy.id}`}><div className="border-b border-gray-500 p-2">
     <div className="text-sm">{guy.name || "?"} ({guy.email})</div>
   </div ></a>
