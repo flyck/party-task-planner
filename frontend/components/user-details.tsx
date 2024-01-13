@@ -16,7 +16,7 @@ const UserDetails: React.FC<any> = () => {
 
   return (<>
     <div className="text-right">
-      <Button className="inline-block bg-gray-900 border-gray-800" onClick={() => navigate(pathName, router)}>
+      <Button className="inline-block dark:bg-gray-900 bg-gray-100 border dark:border-gray-800" onClick={() => navigate(pathName, router)}>
         {!hydrated ? null : getUserName()}
       </Button>
     </div >

@@ -114,7 +114,7 @@ const PartyDetails: React.FC<{}> = () => {
         ...register("description")
       }} />
       <div className="p-2">
-        <button className="bg-red-800 text-gray-200 rounded-sm w-full" onClick={() => handleDelete()}>
+        <button className="bg-red-600 text-gray-200 rounded-sm w-full" onClick={() => handleDelete()}>
           Delete
         </button>
       </div>

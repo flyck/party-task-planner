@@ -102,7 +102,7 @@ const PartyDetails: React.FC<{}> = () => {
         {getInviteButton(loadingParticipant, setValue, watch("invitationSent"))}
       </div>
       <div className="p-2">
-        <button className="bg-red-800 text-gray-200 rounded-sm w-full" onClick={(event) => handleDelete(event)}>
+        <button className="bg-red-600 text-gray-200 rounded-sm w-full" onClick={(event) => handleDelete(event)}>
           Delete
         </button>
       </div>

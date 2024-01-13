@@ -31,11 +31,11 @@ export default function AppLayout({
           </div>}
           <div className="w-full h-96">
             <div className="mb-4">
-              <div className="w-full bg-gray-900 border-gray-800 p-2 rounded-lg text-center border-gray-800 border">
+              <div className="w-full dark:bg-gray-900 bg-gray-100 dark:border-gray-800 p-2 rounded-lg text-center border">
                 {title}
               </div>
             </div>
-            <div className="rounded-lg border bg-gray-900 text-gray-100 border-gray-800">
+            <div className="rounded-lg border dark:bg-gray-900 bg-gray-100 dark:text-gray-100 text-gray-900 dark:border-gray-800 border-gray-200">
               {children}
             </div>
           </div>
