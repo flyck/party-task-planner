@@ -74,6 +74,8 @@ type Mutation {
 }
 
 type Subscription {
+  updatedParty(id: String!): Party
+  @aws_subscribe(mutations: ["updateParty"])
   createdParticipant(partyId: String!): Participant
   @aws_subscribe(mutations: ["createParticipant"])
   updatedParticipant(partyId: String!): Participant

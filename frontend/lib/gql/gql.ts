@@ -23,8 +23,9 @@ const documents = {
     "query getParticipants(\n  $partyId: String!\n  $limit: Int\n  $nextToken: String\n) {\n getParticipants(\n  partyId: $partyId\n  limit: $limit\n  nextToken: $nextToken\n  ) {\n    items {\n      id\n      name\n      email\n      invitationSent\n    }\n    nextToken\n  }\n}": types.GetParticipantsDocument,
     "query getParty(\n  $id: String!\n) {\n getParty(\n  id: $id\n  ) {\n    id\n    title\n    description\n    location\n    date\n  }\n}": types.GetPartyDocument,
     "mutation updateParticipant(\n$args: UpdateParticipantInput!\n) {\n updateParticipant(\n  args: $args\n  ) {\n    partyId\n    id\n    name\n    email\n    invitationSent\n  }\n}": types.UpdateParticipantDocument,
-    "mutation updateParty(\n  $id: String!\n  $title: String\n  $description: String\n  $location: String\n  $date: String\n) {\n updateParty(\n  id: $id\n  title: $title\n  description: $description\n  location: $location\n  date: $date\n  ) {\n    id\n  }\n}": types.UpdatePartyDocument,
+    "mutation updateParty(\n  $id: String!\n  $title: String\n  $description: String\n  $location: String\n  $date: String\n) {\n updateParty(\n  id: $id\n  title: $title\n  description: $description\n  location: $location\n  date: $date\n  ) {\n    id\n    title\n    description\n    location\n    date\n  }\n}": types.UpdatePartyDocument,
     "subscription updatedParticipant(\n  $partyId: String!\n) {\n updatedParticipant(\n  partyId: $partyId\n) {\n    id\n    name\n    email\n    invitationSent\n  }\n}": types.UpdatedParticipantDocument,
+    "subscription updatedParty(\n  $id: String!\n) {\n updatedParty(\n  id: $id\n) {\n    id\n    title\n    description\n    location\n    date\n  }\n}": types.UpdatedPartyDocument,
 };
 
 /**
@@ -84,11 +85,15 @@ export function graphql(source: "mutation updateParticipant(\n$args: UpdateParti
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "mutation updateParty(\n  $id: String!\n  $title: String\n  $description: String\n  $location: String\n  $date: String\n) {\n updateParty(\n  id: $id\n  title: $title\n  description: $description\n  location: $location\n  date: $date\n  ) {\n    id\n  }\n}"): (typeof documents)["mutation updateParty(\n  $id: String!\n  $title: String\n  $description: String\n  $location: String\n  $date: String\n) {\n updateParty(\n  id: $id\n  title: $title\n  description: $description\n  location: $location\n  date: $date\n  ) {\n    id\n  }\n}"];
+export function graphql(source: "mutation updateParty(\n  $id: String!\n  $title: String\n  $description: String\n  $location: String\n  $date: String\n) {\n updateParty(\n  id: $id\n  title: $title\n  description: $description\n  location: $location\n  date: $date\n  ) {\n    id\n    title\n    description\n    location\n    date\n  }\n}"): (typeof documents)["mutation updateParty(\n  $id: String!\n  $title: String\n  $description: String\n  $location: String\n  $date: String\n) {\n updateParty(\n  id: $id\n  title: $title\n  description: $description\n  location: $location\n  date: $date\n  ) {\n    id\n    title\n    description\n    location\n    date\n  }\n}"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "subscription updatedParticipant(\n  $partyId: String!\n) {\n updatedParticipant(\n  partyId: $partyId\n) {\n    id\n    name\n    email\n    invitationSent\n  }\n}"): (typeof documents)["subscription updatedParticipant(\n  $partyId: String!\n) {\n updatedParticipant(\n  partyId: $partyId\n) {\n    id\n    name\n    email\n    invitationSent\n  }\n}"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "subscription updatedParty(\n  $id: String!\n) {\n updatedParty(\n  id: $id\n) {\n    id\n    title\n    description\n    location\n    date\n  }\n}"): (typeof documents)["subscription updatedParty(\n  $id: String!\n) {\n updatedParty(\n  id: $id\n) {\n    id\n    title\n    description\n    location\n    date\n  }\n}"];
 
 export function graphql(source: string) {
   return (documents as any)[source] ?? {};
