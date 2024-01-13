@@ -5,7 +5,8 @@ const createdParticipant = gql`subscription createdParticipant(
 ) {
  createdParticipant(
   partyId: $partyId
-  ) {
+) {
+    id
     name
     email
     invitationSent

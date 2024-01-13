@@ -8,7 +8,11 @@ const deleteParticipant = gql`mutation deleteParticipant(
   partyId: $partyId
   id: $id
   ) {
+    partyId
     id
+    name
+    email
+    invitationSent
   }
 }`
 

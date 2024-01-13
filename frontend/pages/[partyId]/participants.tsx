@@ -2,10 +2,9 @@ import React, { useEffect } from "react"
 import AppLayout from "@/components/appLayout"
 import SubmitButton from "@/components/ui/minis/submitButton";
 import { useQuery, useSubscription } from "@apollo/client";
-import { CreatedParticipantDocument, CreatedParticipantSubscription, CreatedParticipantSubscriptionVariables, GetParticipantsDocument, GetParticipantsQuery, GetParticipantsQueryVariables, Participant, SubscriptionCreatedParticipantArgs } from "@/lib/gql/graphql";
+import { CreatedParticipantDocument, CreatedParticipantSubscription, CreatedParticipantSubscriptionVariables, DeletedParticipantDocument, DeletedParticipantSubscription, DeletedParticipantSubscriptionVariables, GetParticipantsDocument, GetParticipantsQuery, GetParticipantsQueryVariables, Participant, UpdatedParticipantDocument, UpdatedParticipantSubscription, UpdatedParticipantSubscriptionVariables } from "@/lib/gql/graphql";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
-import createdParticipant from "@/const/graphql/createdParticipant";
 
 /**
  * v0 by Vercel.
@@ -13,12 +12,12 @@ import createdParticipant from "@/const/graphql/createdParticipant";
  */
 
 const Participants: React.FC<{}> = () => {
-  const [hydrated, setHydrated] = React.useState(false);
   const router = useRouter();
   const partyId = router.query.partyId as string
   const [participants, setParticipants] = React.useState<Participant[]>([]);
 
   const { error, data: getParticipantData, refetch } = useQuery<GetParticipantsQuery, GetParticipantsQueryVariables>(GetParticipantsDocument, {
+    skip: !partyId,
     variables: { partyId },
     onError: (result) => {
       console.error(result)
@@ -28,45 +27,61 @@ const Participants: React.FC<{}> = () => {
       setParticipants(result.getParticipants?.items as Participant[])
     }
   });
-
-  const { data: newParticipantData, error: newParticipantError } = useSubscription<CreatedParticipantSubscription, CreatedParticipantSubscriptionVariables>(CreatedParticipantDocument, { variables: { partyId },  });
+  const { data: newParticipantData, error: newParticipantError } = useSubscription<CreatedParticipantSubscription, CreatedParticipantSubscriptionVariables>(CreatedParticipantDocument, {
+    variables: { partyId },
+  });
+  const { data: deletedParticipantData, error: deletedParticipantError } = useSubscription<DeletedParticipantSubscription, DeletedParticipantSubscriptionVariables>(DeletedParticipantDocument, {
+    variables: { partyId },
+  });
+  const { data: updatedParticipantData, error: updatedParticipantError } = useSubscription<UpdatedParticipantSubscription, UpdatedParticipantSubscriptionVariables>(UpdatedParticipantDocument, {
+    variables: { partyId },
+  });
 
   useEffect(() => {
-    console.log("Hello I am triggered!")
-    console.log(newParticipantData)
-    // Handle subscription data
+    if (newParticipantError) {
+      console.error("Error from subscription: " + JSON.stringify(newParticipantError))
+      // TODO toast
+    }
     if (newParticipantData) {
-      refetch()
-      // TODO dont refetch, only update the state
+      const newP: Participant = newParticipantData?.createdParticipant as Participant
+      setParticipants([...participants, newP])
+    }
+  }, [newParticipantData, newParticipantError])
+
+  useEffect(() => {
+    if (deletedParticipantError) {
+      console.error("Error from subscription: " + JSON.stringify(newParticipantError))
+      // TODO toast
+    }
+    if (deletedParticipantData) {
+      const deletedP: Participant = deletedParticipantData?.deletedParticipant as Participant
+      setParticipants([...participants.filter((participant) => participant.id != deletedP.id)])
+    }
+  }, [deletedParticipantData, deletedParticipantError])
+
+  useEffect(() => {
+    if (updatedParticipantError) {
+      console.error("Error from subscription: " + JSON.stringify(newParticipantError))
+      // TODO toast
+    }
+    if (updatedParticipantData) {
+      const updatedP: Participant = updatedParticipantData?.updatedParticipant as Participant
+      const updatedParticipants = participants.map((participant) => {
+        if (participant.id != updatedP.id) return participant
+        return updatedP
+      })
+      // sort the participants to prevent an order mismatch
+      setParticipants(updatedParticipants)
     }
 
-    // Handle subscription errors
-    if (error) {
-      console.error('Subscription error', error);
-    }
-  }, [newParticipantData, newParticipantError]);
+  }, [updatedParticipantData, updatedParticipantError])
 
-  //https://stackoverflow.com/questions/72673362/error-text-content-does-not-match-server-rendered-html
-  React.useEffect(() => {
-    setHydrated(true);
-  }, []);
-  if (!hydrated) {
-    // Returns null on first render, so the client and server match
-    return null;
-  }
 
   return (<AppLayout title="Participants" left={`/${partyId}`} right={""}>
     {participants.map((guy) => userElement(guy as Participant, partyId))}
-    <SubmitButton props={{ disabled: isUserSet(), onClick: () => window.location.assign(`/${partyId}/participants/create`) }} text="+" />
+    <SubmitButton props={{ onClick: () => window.location.assign(`/${partyId}/participants/create`) }} text="+" />
   </AppLayout>
   )
-}
-
-function isUserSet() {
-  const userName = window.localStorage.getItem("userName")
-  const userEmail = window.localStorage.getItem("userEmail")
-
-  return (!userName || !userEmail)
 }
 
 function userElement(guy: Participant, partyId: String) {

@@ -1,12 +1,10 @@
 import { gql } from '@apollo/client';
 
-const getParticipant = gql`query getParticipant(
+const updatedParticipant = gql`subscription updatedParticipant(
   $partyId: String!
-  $id: String!
 ) {
- getParticipant(
+ updatedParticipant(
   partyId: $partyId
-  id: $id
 ) {
     id
     name
@@ -15,4 +13,4 @@ const getParticipant = gql`query getParticipant(
   }
 }`
 
-export default getParticipant
+export default updatedParticipant

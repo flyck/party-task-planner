@@ -51,7 +51,7 @@ export function createParticipantResolvers(stack: cdk.Stack, api: appsync.Graphq
 
   // Make the update respect existing data. First resolver is a javascript resolver as well since
   // javascript resolvers and templates cannot be mixed within the same pipeline
-  // NICETOHAVE can be problably replaced with smart dynamodb updateItem call
+  // TODO switch to updateItem https://dev.to/aws/20-days-of-dynamodb-day-4-conditional-updateitem-dac
   const UpdateParticipantF1 = new appsync.AppsyncFunction(stack, "updateParticipantF1", {
     api,
     name: "UpdateParticipantGet",
