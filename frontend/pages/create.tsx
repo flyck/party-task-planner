@@ -16,11 +16,7 @@ const PartyDetails: React.FC<{}> = () => {
   const [hydrated, setHydrated] = React.useState(false);
   const {
     register,
-    handleSubmit,
-    formState: { errors },
-    reset,
     getValues,
-    setValue,
   } = useForm({
     defaultValues: {
       title: "Birthday Party",
@@ -30,7 +26,7 @@ const PartyDetails: React.FC<{}> = () => {
     }
   });
 
-  const [createParty, { error, data, loading: createPartyLoading }] = useMutation<CreatePartyMutation, CreatePartyMutationVariables>(CreatePartyDocument);
+  const [createParty, { loading: createPartyLoading }] = useMutation<CreatePartyMutation, CreatePartyMutationVariables>(CreatePartyDocument);
 
   //https://stackoverflow.com/questions/72673362/error-text-content-does-not-match-server-rendered-html
   React.useEffect(() => {
@@ -48,13 +44,14 @@ const PartyDetails: React.FC<{}> = () => {
     let id = ""
     try {
       const { data, errors } = await createParty({
-        variables: getValues()
+        variables: { args: getValues() }
       })
       if (errors != undefined) { throw "Found an error: " + JSON.stringify(errors) }
       id = data!.createParty!.id!
     } catch (error) {
       toast.error("Couldnt create party.")
       console.error("Caught: " + error)
+      return
     }
     console.log("party created:" + id)
     window.location.assign(`/${id}`)

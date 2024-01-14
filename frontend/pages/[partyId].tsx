@@ -4,7 +4,7 @@ import SubmitButton from "@/components/ui/minis/submitButton";
 import Input from "@/components/ui/minis/input";
 import { useForm } from 'react-hook-form';
 import { useMutation, useQuery, useSubscription } from "@apollo/client";
-import { DeletePartyDocument, DeletePartyMutation, DeletePartyMutationVariables, GetPartyDocument, GetPartyQuery, GetPartyQueryVariables, Party, UpdatePartyDocument, UpdatePartyMutation, UpdatePartyMutationVariables, UpdatedPartyDocument, UpdatedPartySubscription, UpdatedPartySubscriptionVariables } from "@/lib/gql/graphql";
+import { DeletePartyDocument, DeletePartyMutation, DeletePartyMutationVariables, GetPartyDocument, GetPartyQuery, GetPartyQueryVariables, Party, UpdatedPartyDocument, UpdatedPartySubscription, UpdatedPartySubscriptionVariables, UpdatePartyMutation, UpdatePartyMutationVariables, UpdatePartyDocument } from "@/lib/gql/graphql";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
 
@@ -46,7 +46,7 @@ const PartyDetails: React.FC<{}> = () => {
   });
 
   const [updateParty, { loading: updatePartyLoading }] = useMutation<UpdatePartyMutation, UpdatePartyMutationVariables>(UpdatePartyDocument, {
-    variables: { id },
+    variables: { args: { id } },
   });
 
   const { data: updatedPartyData, error: updatedPartyError } = useSubscription<UpdatedPartySubscription, UpdatedPartySubscriptionVariables>(UpdatedPartyDocument, {
@@ -72,7 +72,7 @@ const PartyDetails: React.FC<{}> = () => {
     console.log(getValues());
     try {
       const { errors } = await updateParty({
-        variables: { id, ...getValues() }
+        variables: { args: { id, ...getValues() } }
       })
       if (errors != undefined) { throw "Found an error: " + JSON.stringify(errors) }
     } catch (error) {

@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client';
 
 const updateParticipant = gql`mutation updateParticipant(
-$args: UpdateParticipantInput!
+$args: UpdateParticipant!
 ) {
  updateParticipant(
   args: $args
