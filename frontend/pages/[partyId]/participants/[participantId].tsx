@@ -4,7 +4,7 @@ import SubmitButton from "@/components/ui/minis/submitButton";
 import Input from "@/components/ui/minis/input";
 import { useForm } from 'react-hook-form';
 import { useMutation, useQuery } from "@apollo/client";
-import { DeleteParticipantDocument, DeleteParticipantMutation, DeleteParticipantMutationVariables, DeletePartyDocument, DeletePartyMutation, DeletePartyMutationVariables, GetParticipantDocument, GetParticipantQuery, GetParticipantQueryVariables, GetPartyDocument, GetPartyQuery, GetPartyQueryVariables, UpdateParticipantDocument, UpdateParticipantMutation, UpdateParticipantMutationVariables, UpdatePartyDocument, UpdatePartyMutation, UpdatePartyMutationVariables } from "@/lib/gql/graphql";
+import { DeleteParticipantDocument, DeleteParticipantMutation, DeleteParticipantMutationVariables, GetParticipantDocument, GetParticipantQuery, GetParticipantQueryVariables, UpdateParticipantDocument, UpdateParticipantMutation, UpdateParticipantMutationVariables } from "@/lib/gql/graphql";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
 

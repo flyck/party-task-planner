@@ -9,7 +9,7 @@ import * as ddb from '@aws-appsync/utils/dynamodb'
 
 export function request(ctx) {
   const id = util.autoId().slice(0, 8)
-  return ddb.put({ key: { id }, item: ctx.args });
+  return ddb.put({ key: { id }, item: ctx.args.args });
 }
 
 /**

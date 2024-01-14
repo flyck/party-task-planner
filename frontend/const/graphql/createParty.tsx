@@ -1,17 +1,9 @@
 import { gql } from '@apollo/client';
 
 const createParty = gql`mutation createParty(
-  $title: String
-  $description: String
-  $location: String
-  $date: String
+  $args: CreateParty!
 ) {
- createParty(
-  title: $title
-  description: $description
-  location: $location
-  date: $date
-  ) {
+ createParty(args: $args) {
     id
   }
 }`

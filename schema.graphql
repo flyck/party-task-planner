@@ -5,7 +5,22 @@ type Party {
   description: String
   location: String
   date: String
-  participants(limit: Int, nextToken: String): ParticipantsResult
+  participants(limit: Int, nextToken: String): Participants
+}
+
+input CreateParty {
+  title: String
+  description: String
+  location: String
+  date: String
+}
+
+input UpdateParty {
+  id: String!
+  title: String
+  description: String
+  location: String
+  date: String
 }
 
 ### Pariticpants ###
@@ -17,14 +32,14 @@ type Participant {
   invitationSent: Boolean
 }
 
-input CreateParticipantInput {
+input CreateParticipant {
   partyId: String!
   name: String
   email: String
   invitationSent: Boolean
 }
 
-input UpdateParticipantInput {
+input UpdateParticipant {
   partyId: String!
   id: String!
   name: String
@@ -32,7 +47,7 @@ input UpdateParticipantInput {
   invitationSent: Boolean
 }
 
-type ParticipantsResult {
+type Participants {
   items: [Participant]
   nextToken: String
 }
@@ -46,30 +61,15 @@ type Query {
     partyId: String!
     limit: Int
     nextToken: String
-  ): ParticipantsResult
+  ): Participants
 }
 
 type Mutation {
-  # TODO change to input
-  createParty(
-    title: String
-    description: String
-    location: String
-    date: String
-  ): Party
-  # TODO change to input
-  updateParty(
-    id: String!
-    title: String
-    description: String
-    location: String
-    date: String
-  ): Party
-  deleteParty(
-    id: String!
-  ): Party
-  createParticipant(args: CreateParticipantInput!): Participant
-  updateParticipant(args: UpdateParticipantInput!): Participant
+  createParty(args: CreateParty!): Party
+  updateParty(args: UpdateParty!): Party
+  deleteParty(id: String!): Party
+  createParticipant(args: CreateParticipant!): Participant
+  updateParticipant(args: UpdateParticipant!): Participant
   deleteParticipant(partyId: String!, id: String!): Participant
 }
 

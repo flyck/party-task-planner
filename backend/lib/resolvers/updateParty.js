@@ -14,10 +14,10 @@ export function request(ctx) {
   // merge existing values with individual fields from update
   const properties = {
     ...ctx.prev.result,
-    ...ctx.args,
+    ...ctx.args.args,
   }
 
-  return ddb.put({ key: { id: ctx.args.id }, item: properties });
+  return ddb.put({ key: { id: ctx.args.args.id }, item: properties });
 }
 
 export const response = (ctx) => ctx.result;
