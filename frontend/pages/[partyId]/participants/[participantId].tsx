@@ -27,7 +27,7 @@ const PartyDetails: React.FC<{}> = () => {
 
   const [deleteParticipant] = useMutation<DeleteParticipantMutation, DeleteParticipantMutationVariables>(DeleteParticipantDocument);
 
-  const { loading: loadingParticipant, error, data: participantData } = useQuery<GetParticipantQuery, GetParticipantQueryVariables>(GetParticipantDocument, {
+  const { loading: loadingParticipant } = useQuery<GetParticipantQuery, GetParticipantQueryVariables>(GetParticipantDocument, {
     variables: { partyId, id },
     onCompleted: (result) => {
       if (!result.getParticipant) {
