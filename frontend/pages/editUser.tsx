@@ -43,7 +43,7 @@ const EditUser: React.FC<{}> = () => {
   return (
     <AppLayout title="User" left={""} right={""}>
       {showInfo ? <div className="border-b border-gray-500 p-2">
-        <div className="p-2 text-sm italic border border-blue-900 bg-gray-800 rounded-lg">
+        <div className="p-2 text-sm italic border border-blue-900 dark:bg-gray-800 rounded-lg">
           ℹ A Username and Email are needed for party creation.
         </div>
       </div> : undefined}
@@ -52,7 +52,7 @@ const EditUser: React.FC<{}> = () => {
           <div className="text-sm">Name:</div>
           <input
             name="userName"
-            className="w-full text-sm bg-gray-800 px-2 rounded-sm"
+            className="w-full text-sm dark:bg-gray-800 px-2 rounded-sm"
             type="text"
             value={formData.userName}
             onChange={handleChange}
@@ -62,7 +62,7 @@ const EditUser: React.FC<{}> = () => {
           <div className="text-sm">Email:</div>
           <input
             name="userEmail"
-            className="w-full text-sm bg-gray-800 px-2 rounded-sm"
+            className="w-full text-sm dark:bg-gray-800 px-2 rounded-sm"
             type="text"
             value={formData.userEmail}
             onChange={handleChange}
