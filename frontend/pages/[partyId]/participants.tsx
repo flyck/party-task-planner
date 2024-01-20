@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import AppLayout from "@/components/appLayout"
 import SubmitButton from "@/components/ui/minis/submitButton";
 import { useQuery, useSubscription } from "@apollo/client";
@@ -6,6 +6,8 @@ import { CreatedParticipantDocument, CreatedParticipantSubscription, CreatedPart
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
 import { Skeleton } from "@/components/ui/skeleton";
+import Modal from "@/components/modal";
+import CreateParticipant from "@/components/createParticipant";
 
 /**
  * v0 by Vercel.
@@ -15,9 +17,11 @@ import { Skeleton } from "@/components/ui/skeleton";
 const Participants: React.FC<{}> = () => {
   const router = useRouter();
   const partyId = router.query.partyId as string
-  const [participants, setParticipants] = React.useState<Participant[]>([]);
+  const [participants, setParticipants] = useState<Participant[]>([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const { error, data: getParticipantData, loading, refetch } = useQuery<GetParticipantsQuery, GetParticipantsQueryVariables>(GetParticipantsDocument, {
+
+  const { loading } = useQuery<GetParticipantsQuery, GetParticipantsQueryVariables>(GetParticipantsDocument, {
     skip: !partyId,
     variables: { partyId },
     onError: (result) => {
@@ -77,10 +81,16 @@ const Participants: React.FC<{}> = () => {
 
   }, [updatedParticipantData, updatedParticipantError])
 
+  const handleCloseModal = () => { setIsModalOpen(false); };
 
   return (<AppLayout title="Participants" left={`/${partyId}`} right={""}>
     {loading ? skeleton() : sortedParticipants(participants).map((guy) => getUserElement(guy, partyId))}
-    <SubmitButton props={{ onClick: () => window.location.assign(`/${partyId}/participants/create`) }} text="+" />
+    <SubmitButton props={{ onClick: () => setIsModalOpen(true) }} text="+" />
+    <div className="z-50">
+      <Modal isOpen={isModalOpen} onClose={handleCloseModal} title={"New Participant"} >
+        <CreateParticipant />
+      </Modal>
+    </div>
   </AppLayout>
   )
 }
