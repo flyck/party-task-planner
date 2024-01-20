@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 import { useRouter } from "next/router";
 import { Skeleton } from "@/components/ui/skeleton";
 import Modal from "@/components/modal";
+import CreateParticipant from "@/components/createParticipant";
 
 /**
  * v0 by Vercel.
@@ -80,17 +81,14 @@ const Participants: React.FC<{}> = () => {
 
   }, [updatedParticipantData, updatedParticipantError])
 
-  const handleOpenModal = () => { setIsModalOpen(true); };
-
   const handleCloseModal = () => { setIsModalOpen(false); };
 
   return (<AppLayout title="Participants" left={`/${partyId}`} right={""}>
     {loading ? skeleton() : sortedParticipants(participants).map((guy) => getUserElement(guy, partyId))}
     <SubmitButton props={{ onClick: () => setIsModalOpen(true) }} text="+" />
     <div className="z-50">
-      <Modal isOpen={isModalOpen} onClose={handleCloseModal} >
-        {/* Content of your modal goes here */}
-        <p>This is the content of the modal.</p>
+      <Modal isOpen={isModalOpen} onClose={handleCloseModal} title={"New Participant"} >
+        <CreateParticipant />
       </Modal>
     </div>
   </AppLayout>
