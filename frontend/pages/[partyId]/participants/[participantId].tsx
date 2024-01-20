@@ -89,12 +89,12 @@ const PartyDetails: React.FC<{}> = () => {
 
   return (<AppLayout title="Details" left={""} right={""}>
     <form onSubmit={(event) => submit(event)}>
-      <Input title="Name" props={{
+      <Input title="Name" loading={loadingParticipant} props={{
         type: "text", onFocus: () => redirect(),
         required: true,
         ...register("name")
       }} />
-      <Input title="Email" props={{
+      <Input title="Email" loading={loadingParticipant} props={{
         type: "text", onFocus: () => redirect(),
         ...register("email")
       }} />

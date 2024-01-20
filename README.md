@@ -45,3 +45,11 @@ Should I use more SSR for my app?
     - Could also be solved by [delaying the init](https://github.com/awslabs/aws-mobile-appsync-sdk-js/issues/491#issuecomment-671469907)
   - This package has a missing dependency on "uuid", which is why I added it as a frontend project
     dependency: [hint](https://github.com/awslabs/aws-mobile-appsync-sdk-js/issues/695)
+
+## Single Page Application
+
+Should this app be a single page application? Probably yes, but it doesnt seem straightforward
+with Next.js ([blog](https://colinhacks.com/essays/building-a-spa-with-nextjs)). Sharing data
+between states could make it so I fetch all party data once, and then only rely on subscriptions
+for subsequent data updates. A potentially bigger bundle sice with the SPA is counterweighed by
+optimal network requests for the application data.
