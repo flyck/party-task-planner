@@ -5,6 +5,7 @@ import { useQuery, useSubscription } from "@apollo/client";
 import { CreatedParticipantDocument, CreatedParticipantSubscription, CreatedParticipantSubscriptionVariables, DeletedParticipantDocument, DeletedParticipantSubscription, DeletedParticipantSubscriptionVariables, GetParticipantsDocument, GetParticipantsQuery, GetParticipantsQueryVariables, Participant, UpdatedParticipantDocument, UpdatedParticipantSubscription, UpdatedParticipantSubscriptionVariables } from "@/lib/gql/graphql";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
+import { Skeleton } from "@/components/ui/skeleton";
 
 /**
  * v0 by Vercel.
@@ -16,7 +17,7 @@ const Participants: React.FC<{}> = () => {
   const partyId = router.query.partyId as string
   const [participants, setParticipants] = React.useState<Participant[]>([]);
 
-  const { error, data: getParticipantData, refetch } = useQuery<GetParticipantsQuery, GetParticipantsQueryVariables>(GetParticipantsDocument, {
+  const { error, data: getParticipantData, loading, refetch } = useQuery<GetParticipantsQuery, GetParticipantsQueryVariables>(GetParticipantsDocument, {
     skip: !partyId,
     variables: { partyId },
     onError: (result) => {
@@ -78,10 +79,14 @@ const Participants: React.FC<{}> = () => {
 
 
   return (<AppLayout title="Participants" left={`/${partyId}`} right={""}>
-    {sortedParticipants(participants).map((guy) => getUserElement(guy, partyId))}
+    {loading ? skeleton() : sortedParticipants(participants).map((guy) => getUserElement(guy, partyId))}
     <SubmitButton props={{ onClick: () => window.location.assign(`/${partyId}/participants/create`) }} text="+" />
   </AppLayout>
   )
+}
+
+function skeleton() {
+  return <Skeleton className="h-9 bg-gray-200 rounded-sm" />
 }
 
 function sortedParticipants(list: readonly Participant[]) {

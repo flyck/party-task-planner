@@ -96,20 +96,20 @@ const PartyDetails: React.FC<{}> = () => {
 
   return (<AppLayout title="Details" left={""} right={`${id}/participants`}>
     <form onSubmit={(event) => submit(event)}>
-      <Input title="Title" props={{
+      <Input title="Title" loading={loadingParty} props={{
         type: "text",
         required: true,
         ...register("title")
       }} />
-      <Input title="Where" props={{
+      <Input title="Where" loading={loadingParty} props={{
         type: "text",
         ...register("location")
       }} />
-      <Input title="When" props={{
+      <Input title="When" loading={loadingParty} props={{
         type: "text",
         ...register("date")
       }} />
-      <Input title="Description" props={{
+      <Input title="Description" loading={loadingParty} props={{
         type: "text",
         ...register("description")
       }} />
