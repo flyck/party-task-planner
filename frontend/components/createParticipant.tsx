@@ -13,7 +13,7 @@ import { useRouter } from "next/router";
  * @see https://v0.dev/t/l6J3KeWghpZ
  */
 
-const PartyDetails: React.FC<{}> = () => {
+const CreateParticipant: React.FC<{}> = () => {
   const [hydrated, setHydrated] = React.useState(false);
   const {
     register,
@@ -91,4 +91,4 @@ function isUserSet() {
 }
 
 
-export default PartyDetails
+export default CreateParticipant
