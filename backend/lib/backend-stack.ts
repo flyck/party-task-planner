@@ -6,6 +6,7 @@ import * as appsync from 'aws-cdk-lib/aws-appsync';
 import { join } from "path";
 import { createPartyResolvers } from './backend-stack.parties';
 import { createParticipantResolvers } from './backend-stack.participants';
+import { createTaskResolvers } from './backend-stack.tasks';
 
 interface MultiStackProps extends StackProps {
   projectName: string
@@ -32,6 +33,7 @@ export class BackendStack extends cdk.Stack {
 
     const participantTable = new dynamodb.Table(this, 'participants', {
       tableName: `${projectName}-participants`,
+      // composite key so we can get all participants without a GSI or a scan
       partitionKey: {
         name: 'partyId',
         type: dynamodb.AttributeType.STRING,
@@ -44,8 +46,24 @@ export class BackendStack extends cdk.Stack {
       pointInTimeRecovery: true,
     });
 
-    partyTable.applyRemovalPolicy(cdk.RemovalPolicy.DESTROY);
+    participantTable.applyRemovalPolicy(cdk.RemovalPolicy.DESTROY);
 
+    const taskTable = new dynamodb.Table(this, 'tasks', {
+      tableName: `${projectName}-tasks`,
+      // composite key so we can get all tasks without a GSI or a scan
+      partitionKey: {
+        name: 'partyId',
+        type: dynamodb.AttributeType.STRING,
+      },
+      sortKey: {
+        name: 'id',
+        type: dynamodb.AttributeType.STRING,
+      },
+      billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
+      pointInTimeRecovery: true,
+    });
+
+    taskTable.applyRemovalPolicy(cdk.RemovalPolicy.DESTROY);
 
     // AppSync API
     const api = new appsync.GraphqlApi(this, 'Api', {
@@ -64,9 +82,12 @@ export class BackendStack extends cdk.Stack {
 
     const partyDataSource = api.addDynamoDbDataSource('partyDataSource', partyTable);
     const participantDataSource = api.addDynamoDbDataSource('participantDataSource', participantTable);
+    const taskDataSource = api.addDynamoDbDataSource('taskDataSource', taskTable);
+
     const noneDataSource = api.addNoneDataSource('None');
 
     createPartyResolvers(this, api, partyDataSource);
     createParticipantResolvers(this, api, partyDataSource, participantDataSource);
+    createTaskResolvers({ stack: this, api, parties: partyDataSource, participants: participantDataSource, tasks: taskDataSource });
   }
 }

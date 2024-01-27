@@ -6,6 +6,7 @@ type Party {
   location: String
   date: String
   participants(limit: Int, nextToken: String): Participants
+  tasks(limit: Int, nextToken: String): Tasks
 }
 
 input CreateParty {
@@ -23,7 +24,7 @@ input UpdateParty {
   date: String
 }
 
-### Pariticpants ###
+### Participants ###
 type Participant {
   partyId: String
   id: String
@@ -52,9 +53,45 @@ type Participants {
   nextToken: String
 }
 
+### Tasks ###
+type Task {
+  partyId: String
+  id: String
+  title: String
+  description: String
+  status: TaskStatus
+  assignee: Participant
+}
+
+input CreateTask {
+  partyId: String!
+  assigneeId: String
+  title: String
+  description: String
+  status: TaskStatus
+}
+
+input UpdateTask {
+  partyId: String!
+  id: String!
+  name: String
+  email: String
+  invitationSent: Boolean
+}
+
+type Tasks {
+  items: [Task]
+  nextToken: String
+}
+
+enum TaskStatus {
+  TODO
+  PENDING
+  DONE
+}
+
 ### Queries and Mutations ###
 type Query {
-  ## TODO delete also all participants once a party is deleted
   getParty(id: String!): Party
   getParticipant(partyId: String!, id: String!): Participant
   getParticipants(
@@ -62,6 +99,12 @@ type Query {
     limit: Int
     nextToken: String
   ): Participants
+  getTask(partyId: String!, id: String!): Task
+  getTasks(
+    partyId: String!
+    limit: Int
+    nextToken: String
+  ): Tasks
 }
 
 type Mutation {
@@ -71,17 +114,28 @@ type Mutation {
   createParticipant(args: CreateParticipant!): Participant
   updateParticipant(args: UpdateParticipant!): Participant
   deleteParticipant(partyId: String!, id: String!): Participant
+  createTask(args: CreateTask!): Task
+  updateTask(args: UpdateTask!): Task
+  deleteTask(partyId: String!, id: String!): Task
 }
 
 type Subscription {
   updatedParty(id: String!): Party
   @aws_subscribe(mutations: ["updateParty"])
+
   createdParticipant(partyId: String!): Participant
   @aws_subscribe(mutations: ["createParticipant"])
   updatedParticipant(partyId: String!): Participant
   @aws_subscribe(mutations: ["updateParticipant"])
   deletedParticipant(partyId: String!): Participant
   @aws_subscribe(mutations: ["deleteParticipant"])
+
+  createdTask(partyId: String!): Task
+  @aws_subscribe(mutations: ["createTask"])
+  updatedTask(partyId: String!): Task
+  @aws_subscribe(mutations: ["updateTask"])
+  deletedTask(partyId: String!): Task
+  @aws_subscribe(mutations: ["deleteTask"])
 }
 
 schema {
