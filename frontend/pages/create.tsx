@@ -6,6 +6,7 @@ import { useForm } from 'react-hook-form';
 import { useMutation } from '@apollo/client'
 import { CreatePartyMutation, CreatePartyMutationVariables, CreatePartyDocument } from "@/lib/gql/graphql";
 import { toast } from "react-toastify";
+import Scrollable from "@/components/scrollable";
 
 /**
  * v0 by Vercel.
@@ -59,23 +60,25 @@ const PartyDetails: React.FC<{}> = () => {
 
   return (<AppLayout title="Details" left={""} right={""}>
     <form onSubmit={(event) => submit(event)}>
-      <Input title="Title" props={{
-        type: "text", onFocus: () => redirect(),
-        required: true,
-        ...register("title")
-      }} />
-      <Input title="Where" props={{
-        type: "text", onFocus: () => redirect(),
-        ...register("location")
-      }} />
-      <Input title="When" props={{
-        type: "text", onFocus: () => redirect(),
-        ...register("date")
-      }} />
-      <Input title="Description" props={{
-        type: "text", onFocus: () => redirect(),
-        ...register("description")
-      }} />
+      <Scrollable>
+        <Input title="Title" props={{
+          type: "text", onFocus: () => redirect(),
+          required: true,
+          ...register("title")
+        }} />
+        <Input title="Where" props={{
+          type: "text", onFocus: () => redirect(),
+          ...register("location")
+        }} />
+        <Input title="When" props={{
+          type: "text", onFocus: () => redirect(),
+          ...register("date")
+        }} />
+        <Input title="Description" props={{
+          type: "text", onFocus: () => redirect(),
+          ...register("description")
+        }} />
+      </Scrollable>
       <SubmitButton loading={createPartyLoading} props={{ disabled: isUserSet() }} />
     </form>
   </AppLayout>
