@@ -26,6 +26,8 @@ const PartyDetails: React.FC<{}> = () => {
     watch,
   } = useForm();
 
+  // TODO assignee dropdown
+  // TODO task status dropdown
   const [deleteTask] = useMutation<DeleteTaskMutation, DeleteTaskMutationVariables>(DeleteTaskDocument);
 
   const { loading: loadingTask } = useQuery<GetTaskQuery, GetTaskQueryVariables>(GetTaskDocument, {
