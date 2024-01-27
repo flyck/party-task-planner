@@ -35,7 +35,7 @@ export default function AppLayout({
                 {title}
               </div>
             </div>
-            <div className="rounded-lg border dark:bg-gray-900 bg-gray-100 dark:text-gray-100 text-gray-900 dark:border-gray-800 border-gray-200">
+            <div className="rounded-lg border dark:bg-gray-900 bg-gray-100 dark:text-gray-100 text-gray-900 dark:border-gray-800 border-gray-200 max-h-80">
               {children}
             </div>
           </div>

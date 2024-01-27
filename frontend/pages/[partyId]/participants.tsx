@@ -8,6 +8,7 @@ import { useRouter } from "next/router";
 import { Skeleton } from "@/components/ui/skeleton";
 import Modal from "@/components/modal";
 import CreateParticipant from "@/components/createParticipant";
+import Scrollable from "@/components/scrollable";
 
 /**
  * v0 by Vercel.
@@ -84,7 +85,9 @@ const Participants: React.FC<{}> = () => {
   const handleCloseModal = () => { setIsModalOpen(false); };
 
   return (<AppLayout title="Participants" left={`/${partyId}`} right={""}>
-    {loading ? skeleton() : sortedParticipants(participants).map((guy) => getUserElement(guy, partyId))}
+    <Scrollable>
+      {loading ? skeleton() : sortedParticipants(participants).map((guy) => getUserElement(guy, partyId))}
+    </Scrollable>
     <SubmitButton props={{ onClick: () => setIsModalOpen(true) }} text="+" />
     <div className="z-50">
       <Modal isOpen={isModalOpen} onClose={handleCloseModal} title={"New Participant"} >
