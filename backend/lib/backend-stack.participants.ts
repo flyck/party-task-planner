@@ -9,7 +9,7 @@ export function createParticipantResolvers(stack: cdk.Stack, api: appsync.Graphq
     name: "CreateParticipantGet",
     dataSource: parties,
     runtime: appsync.FunctionRuntime.JS_1_0_0,
-    code: appsync.Code.fromAsset(join(__dirname, "./resolvers/getParticipantParty.js")),
+    code: appsync.Code.fromAsset(join(__dirname, "./resolvers/getRelatedParty.js")),
   });
 
   const CreateParticipantF2 = new appsync.AppsyncFunction(stack, "createParticipantF2", {

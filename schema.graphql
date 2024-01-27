@@ -6,6 +6,7 @@ type Party {
   location: String
   date: String
   participants(limit: Int, nextToken: String): Participants
+  tasks(limit: Int, nextToken: String): Tasks
 }
 
 input CreateParty {
