@@ -7,6 +7,7 @@ import { useMutation, useQuery } from "@apollo/client";
 import { DeleteParticipantDocument, DeleteParticipantMutation, DeleteParticipantMutationVariables, GetParticipantDocument, GetParticipantQuery, GetParticipantQueryVariables, UpdateParticipantDocument, UpdateParticipantMutation, UpdateParticipantMutationVariables } from "@/lib/gql/graphql";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
+import Scrollable from "@/components/scrollable";
 
 /**
  * v0 by Vercel.
@@ -89,23 +90,27 @@ const PartyDetails: React.FC<{}> = () => {
 
   return (<AppLayout title="Details" left={""} right={""}>
     <form onSubmit={(event) => submit(event)}>
-      <Input title="Name" loading={loadingParticipant} props={{
-        type: "text", onFocus: () => redirect(),
-        required: true,
-        ...register("name")
-      }} />
-      <Input title="Email" loading={loadingParticipant} props={{
-        type: "text", onFocus: () => redirect(),
-        ...register("email")
-      }} />
-      <div className="p-2">
-        {getInviteButton(loadingParticipant, setValue, watch("invitationSent"))}
-      </div>
-      <div className="p-2">
-        <button className="bg-red-600 text-gray-200 rounded-sm w-full" onClick={(event) => handleDelete(event)}>
-          Delete
-        </button>
-      </div>
+      <Scrollable>
+        <div className="flex-1">
+          <Input title="Name" loading={loadingParticipant} props={{
+            type: "text", onFocus: () => redirect(),
+            required: true,
+            ...register("name")
+          }} />
+          <Input title="Email" loading={loadingParticipant} props={{
+            type: "text", onFocus: () => redirect(),
+            ...register("email")
+          }} />
+          <div className="p-2 border-b border-gray-500">
+            {getInviteButton(loadingParticipant, setValue, watch("invitationSent"))}
+          </div>
+          <div className="p-2 border-b border-gray-500">
+            <button className="bg-red-600 text-gray-200 rounded-sm w-full" onClick={(event) => handleDelete(event)}>
+              Delete
+            </button>
+          </div>
+        </div>
+      </Scrollable>
       <SubmitButton loading={updateParticipantLoading} props={{ disabled: isUserSet() }} />
     </form>
   </AppLayout>

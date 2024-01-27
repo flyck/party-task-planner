@@ -7,6 +7,7 @@ import { useMutation, useQuery, useSubscription } from "@apollo/client";
 import { DeletePartyDocument, DeletePartyMutation, DeletePartyMutationVariables, GetPartyDocument, GetPartyQuery, GetPartyQueryVariables, Party, UpdatedPartyDocument, UpdatedPartySubscription, UpdatedPartySubscriptionVariables, UpdatePartyMutation, UpdatePartyMutationVariables, UpdatePartyDocument } from "@/lib/gql/graphql";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
+import Scrollable from "@/components/scrollable";
 
 /**
  * v0 by Vercel.
@@ -96,28 +97,30 @@ const PartyDetails: React.FC<{}> = () => {
 
   return (<AppLayout title="Details" left={""} right={`${id}/participants`}>
     <form onSubmit={(event) => submit(event)}>
-      <Input title="Title" loading={loadingParty} props={{
-        type: "text",
-        required: true,
-        ...register("title")
-      }} />
-      <Input title="Where" loading={loadingParty} props={{
-        type: "text",
-        ...register("location")
-      }} />
-      <Input title="When" loading={loadingParty} props={{
-        type: "text",
-        ...register("date")
-      }} />
-      <Input title="Description" loading={loadingParty} props={{
-        type: "text",
-        ...register("description")
-      }} />
-      <div className="p-2">
-        <button className="bg-red-600 text-gray-200 rounded-sm w-full" onClick={() => handleDelete()}>
-          Delete
-        </button>
-      </div>
+      <Scrollable>
+        <Input title="Title" loading={loadingParty} props={{
+          type: "text",
+          required: true,
+          ...register("title")
+        }} />
+        <Input title="Where" loading={loadingParty} props={{
+          type: "text",
+          ...register("location")
+        }} />
+        <Input title="When" loading={loadingParty} props={{
+          type: "text",
+          ...register("date")
+        }} />
+        <Input title="Description" loading={loadingParty} props={{
+          type: "text",
+          ...register("description")
+        }} />
+        <div className="p-2">
+          <button className="bg-red-600 text-gray-200 rounded-sm w-full" onClick={() => handleDelete()}>
+            Delete
+          </button>
+        </div>
+      </Scrollable>
       <SubmitButton loading={updatePartyLoading} />
     </form>
   </AppLayout>
