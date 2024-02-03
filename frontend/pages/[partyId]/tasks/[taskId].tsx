@@ -4,7 +4,7 @@ import SubmitButton from "@/components/ui/minis/submitButton";
 import Input from "@/components/ui/minis/input";
 import { useForm } from 'react-hook-form';
 import { useMutation, useQuery } from "@apollo/client";
-import { DeleteTaskDocument, DeleteTaskMutation, DeleteTaskMutationVariables, GetTaskDocument, GetTaskQuery, GetTaskQueryVariables, UpdateTaskDocument, UpdateTaskMutation, UpdateTaskMutationVariables } from "@/lib/gql/graphql";
+import { DeleteTaskDocument, DeleteTaskMutation, DeleteTaskMutationVariables, GetParticipantsDocument, GetParticipantsQuery, GetParticipantsQueryVariables, GetTaskDocument, GetTaskQuery, GetTaskQueryVariables, Participant, TaskStatus, UpdateTaskDocument, UpdateTaskMutation, UpdateTaskMutationVariables } from "@/lib/gql/graphql";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
 import Scrollable from "@/components/scrollable";
@@ -25,9 +25,6 @@ const PartyDetails: React.FC<{}> = () => {
     setValue,
     watch,
   } = useForm();
-
-  // TODO assignee dropdown
-  // TODO task status dropdown
   const [deleteTask] = useMutation<DeleteTaskMutation, DeleteTaskMutationVariables>(DeleteTaskDocument);
 
   const { loading: loadingTask } = useQuery<GetTaskQuery, GetTaskQueryVariables>(GetTaskDocument, {
@@ -40,7 +37,7 @@ const PartyDetails: React.FC<{}> = () => {
       }
       const { title, assignee, status, description } = result.getTask!
       setValue("title", title)
-      setValue("assignee", assignee?.name)
+      setValue("assigneeId", assignee?.id)
       setValue("description", description)
       setValue("status", status)
     },
@@ -51,7 +48,18 @@ const PartyDetails: React.FC<{}> = () => {
     }
   });
 
+  const { loading: participantsLoading, data: participantsData } = useQuery<GetParticipantsQuery, GetParticipantsQueryVariables>(GetParticipantsDocument, {
+    skip: !partyId,
+    variables: { partyId },
+    onError: (result) => {
+      console.error(result)
+      toast.error("Couldnt retrieve participants.")
+    },
+  });
+
   const [updateTask, { loading: updateTaskLoading }] = useMutation<UpdateTaskMutation, UpdateTaskMutationVariables>(UpdateTaskDocument);
+
+  const participants = participantsData?.getParticipants?.items as Participant[]
 
   //https://stackoverflow.com/questions/72673362/error-text-content-does-not-match-server-rendered-html
   React.useEffect(() => {
@@ -66,15 +74,19 @@ const PartyDetails: React.FC<{}> = () => {
     event.preventDefault();
     console.log(getValues());
     try {
+      let userInput = {
+        ...getValues()
+      }
+      if (userInput?.assigneeId == "Nobody") { userInput.assigneeId = null }
       const { data, errors } = await updateTask({
-        variables: { args: { partyId, id, ...getValues() } }
+        variables: { args: { partyId, id, ...userInput } }
       })
       if (errors != undefined) { throw "Found an error: " + JSON.stringify(errors) }
     } catch (error) {
       toast.error("Couldnt update task.")
       console.error("Caught: " + error)
     }
-    window.location.assign(`/${partyId}/tasks`)
+    //window.location.assign(`/${partyId}/tasks`)
   };
 
   const handleDelete = async (event: React.FormEvent) => {
@@ -90,6 +102,8 @@ const PartyDetails: React.FC<{}> = () => {
     }
     window.location.assign(`/${partyId}/tasks`)
   }
+  const statusList = Object.entries(TaskStatus)
+  console.log(statusList)
 
   return (<AppLayout title="Task Details" left={""} right={""}>
     <form onSubmit={(event) => submit(event)}>
@@ -100,17 +114,29 @@ const PartyDetails: React.FC<{}> = () => {
             required: true,
             ...register("title")
           }} />
-          <Input title="Status" loading={loadingTask} props={{
-            type: "text", onFocus: () => redirect(),
-            ...register("status")
-          }} />
+          <div className="border-b border-gray-500 p-2">
+            <div className="text-sm">Assignee:</div>
+            <select className="w-full text-sm dark:bg-gray-800 px-2 rounded-sm" {...register('assigneeId')} defaultValue={getValues().assigneeId}>
+              {participants && [...participants, ({ name: "Nobody" } as Participant)].map((participant) => (
+                < option key={participant.id} value={participant.id!}>
+                  {participant.name}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="border-b border-gray-500 p-2">
+            <div className="text-sm">Status:</div>
+            <select className="w-full text-sm dark:bg-gray-800 px-2 rounded-sm" {...register('status')} >
+              {statusList.map(([key, value]) => (
+                <option key={key} value={value}>
+                  {key}
+                </option>
+              ))}
+            </select>
+          </div>
           <Input title="Description" loading={loadingTask} props={{
             type: "text", onFocus: () => redirect(),
             ...register("description")
-          }} />
-          <Input title="Assignee" loading={loadingTask} props={{
-            type: "text", onFocus: () => redirect(),
-            ...register("assignee")
           }} />
           <div className="p-2 border-b border-gray-500">
             <button className="bg-red-600 text-gray-200 rounded-sm w-full" onClick={(event) => handleDelete(event)}>
@@ -121,7 +147,7 @@ const PartyDetails: React.FC<{}> = () => {
       </Scrollable>
       <SubmitButton loading={updateTaskLoading} props={{ disabled: isUserSet() }} />
     </form>
-  </AppLayout>
+  </AppLayout >
   )
 }
 

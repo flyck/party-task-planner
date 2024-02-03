@@ -13,6 +13,7 @@ const getTask = gql`query getTask(
     description
     status
     assignee {
+      id
       name
     }
   }

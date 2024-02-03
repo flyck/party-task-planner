@@ -24,7 +24,7 @@ const documents = {
     "query getParticipant(\n  $partyId: String!\n  $id: String!\n) {\n getParticipant(\n  partyId: $partyId\n  id: $id\n) {\n    id\n    name\n    email\n    invitationSent\n  }\n}": types.GetParticipantDocument,
     "query getParticipants(\n  $partyId: String!\n  $limit: Int\n  $nextToken: String\n) {\n getParticipants(\n  partyId: $partyId\n  limit: $limit\n  nextToken: $nextToken\n  ) {\n    items {\n      id\n      name\n      email\n      invitationSent\n    }\n    nextToken\n  }\n}": types.GetParticipantsDocument,
     "query getParty(\n  $id: String!\n) {\n getParty(\n  id: $id\n  ) {\n    id\n    title\n    description\n    location\n    date\n  }\n}": types.GetPartyDocument,
-    "query getTask(\n  $partyId: String!\n  $id: String!\n) {\n getTask(\n  partyId: $partyId\n  id: $id\n) {\n    id\n    title\n    description\n    status\n    assignee {\n      name\n    }\n  }\n}": types.GetTaskDocument,
+    "query getTask(\n  $partyId: String!\n  $id: String!\n) {\n getTask(\n  partyId: $partyId\n  id: $id\n) {\n    id\n    title\n    description\n    status\n    assignee {\n      id\n      name\n    }\n  }\n}": types.GetTaskDocument,
     "query getTasks(\n  $partyId: String!\n  $limit: Int\n  $nextToken: String\n) {\n getTasks(\n  partyId: $partyId\n  limit: $limit\n  nextToken: $nextToken\n  ) {\n    items {\n      id\n      title\n      description\n      status\n      assignee {\n        name\n      }\n    }\n    nextToken\n  }\n}": types.GetTasksDocument,
     "mutation updateParticipant(\n$args: UpdateParticipant!\n) {\n updateParticipant(\n  args: $args\n  ) {\n    partyId\n    id\n    name\n    email\n    invitationSent\n  }\n}": types.UpdateParticipantDocument,
     "mutation updateParty(\n  $args: UpdateParty!\n) {\n  updateParty(args: $args) {\n    id\n    title\n    description\n    location\n    date\n  }\n}": types.UpdatePartyDocument,
@@ -95,7 +95,7 @@ export function graphql(source: "query getParty(\n  $id: String!\n) {\n getParty
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "query getTask(\n  $partyId: String!\n  $id: String!\n) {\n getTask(\n  partyId: $partyId\n  id: $id\n) {\n    id\n    title\n    description\n    status\n    assignee {\n      name\n    }\n  }\n}"): (typeof documents)["query getTask(\n  $partyId: String!\n  $id: String!\n) {\n getTask(\n  partyId: $partyId\n  id: $id\n) {\n    id\n    title\n    description\n    status\n    assignee {\n      name\n    }\n  }\n}"];
+export function graphql(source: "query getTask(\n  $partyId: String!\n  $id: String!\n) {\n getTask(\n  partyId: $partyId\n  id: $id\n) {\n    id\n    title\n    description\n    status\n    assignee {\n      id\n      name\n    }\n  }\n}"): (typeof documents)["query getTask(\n  $partyId: String!\n  $id: String!\n) {\n getTask(\n  partyId: $partyId\n  id: $id\n) {\n    id\n    title\n    description\n    status\n    assignee {\n      id\n      name\n    }\n  }\n}"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

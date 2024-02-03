@@ -74,9 +74,10 @@ input CreateTask {
 input UpdateTask {
   partyId: String!
   id: String!
-  name: String
-  email: String
-  invitationSent: Boolean
+  title: String
+  status: TaskStatus
+  description: Boolean
+  assigneeId: String
 }
 
 type Tasks {

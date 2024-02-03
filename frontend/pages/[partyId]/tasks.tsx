@@ -103,7 +103,7 @@ const Participants: React.FC<{}> = () => {
     <SubmitButton props={{ onClick: () => setIsModalOpen(true) }} text="+" />
     <div className="z-50">
       <Modal isOpen={isModalOpen} onClose={handleCloseModal} title={"New Task"} >
-        <CreateTask participants={participants as Participant[]} participantsLoading={participantsLoading} />
+        <CreateTask participants={participants?.getParticipants?.items as Participant[]} participantsLoading={participantsLoading} />
       </Modal>
     </div>
   </AppLayout>

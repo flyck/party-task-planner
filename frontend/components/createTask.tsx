@@ -12,7 +12,7 @@ import { useRouter } from "next/router";
  * @see https://v0.dev/t/l6J3KeWghpZ
  */
 
-const CreateParticipant: React.FC<{ participants: Participant[], participantsLoading: boolean }> = () => {
+const CreateParticipant: React.FC<{ participants: Participant[], participantsLoading: boolean }> = ({ participants, participantsLoading }) => {
   const {
     register,
     formState: { errors },
@@ -21,6 +21,8 @@ const CreateParticipant: React.FC<{ participants: Participant[], participantsLoa
   const router = useRouter();
   const partyId = router.query.partyId as string
   const [createTask, { error, data, loading: createTaskLoading }] = useMutation<CreateTaskMutation, CreateTaskMutationVariables>(CreateTaskDocument);
+
+  console.log(participants)
 
   const submit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -52,18 +54,22 @@ const CreateParticipant: React.FC<{ participants: Participant[], participantsLoa
         required: true,
         ...register("title")
       }} />
-      {/* TODO dropdown */}
-      <Input title="Assignee" props={{
-        type: "text", onFocus: () => redirect(),
-        required: true,
-        ...register("assigneeId")
-      }} />
+      <div className="border-b border-gray-500 p-2">
+        <div className="text-sm">Assignee:</div>
+        <select className="w-full text-sm dark:bg-gray-800 px-2 rounded-sm" {...register('assigneeId')}>
+          {!participantsLoading && participants.map((participant) => (
+            <option key={participant.id} value={participant.id!}>
+              {participant.name}
+            </option>
+          ))}
+        </select>
+      </div>
       <Input title="Description" props={{
         type: "text", onFocus: () => redirect(),
         ...register("description")
       }} />
       <SubmitButton loading={createTaskLoading} props={{ disabled: isUserSet() }} />
-    </form>
+    </form >
   )
 }
 
