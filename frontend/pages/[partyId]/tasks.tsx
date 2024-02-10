@@ -124,13 +124,13 @@ function getTaskDiv(task: Task, partyId: String) {
   return <a key={task.id} href={`/${partyId}/tasks/${task.id}`}>
     <div className="flex items-center justify-between h-10 border-b border-gray-500">
       {/* Text on the left */}
-      <div className="text-white p-2">
+      <div className="text-gray-800 dark:text-white p-2">
         <div className="text-sm">{displayTaskStatus(task.status as TaskStatus)}{task.title || "?"}</div>
       </div >
       {/* Buttons on the right */}
       <div className="flex space-x-2 p-2">
         <a href={`/${partyId}/task/${task.id}/chat`}>
-          <button className="bg-yellow-500 text-white h-6 mt-1 px-3 rounded">🗨</button>
+          <button className="bg-yellow-500 h-6 mt-1 px-3 rounded">🗨</button>
         </a>
       </div>
     </div>

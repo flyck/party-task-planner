@@ -80,11 +80,19 @@ export function createTaskResolvers({ api, participants, parties, stack, tasks }
     code: appsync.Code.fromAsset(join(__dirname, "./resolvers/getTasks.js"))
   });
 
-  participants.createResolver("getPartyTasks", {
+  // TODO fix
+  tasks.createResolver("getPartyTasks", {
     typeName: "Party",
     fieldName: "tasks",
     runtime: appsync.FunctionRuntime.JS_1_0_0,
     code: appsync.Code.fromAsset(join(__dirname, "./resolvers/getPartyParticipants.js"))
+  });
+
+  participants.createResolver("getTaskParticipants", {
+    typeName: "Task",
+    fieldName: "assignee",
+    runtime: appsync.FunctionRuntime.JS_1_0_0,
+    code: appsync.Code.fromAsset(join(__dirname, "./resolvers/getTaskAssignee.js"))
   });
 
   tasks.createResolver("deleteTask", {

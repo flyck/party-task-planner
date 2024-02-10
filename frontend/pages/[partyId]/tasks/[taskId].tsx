@@ -37,9 +37,10 @@ const PartyDetails: React.FC<{}> = () => {
       }
       const { title, assignee, status, description } = result.getTask!
       setValue("title", title)
-      setValue("assigneeId", assignee?.id)
+      setValue("assigneeId", assignee?.id || "-1")
       setValue("description", description)
       setValue("status", status)
+      console.log(getValues())
     },
     onError: (result) => {
       console.error(result)
@@ -86,7 +87,7 @@ const PartyDetails: React.FC<{}> = () => {
       toast.error("Couldnt update task.")
       console.error("Caught: " + error)
     }
-    //window.location.assign(`/${partyId}/tasks`)
+    window.location.assign(`/${partyId}/tasks`)
   };
 
   const handleDelete = async (event: React.FormEvent) => {
@@ -116,8 +117,8 @@ const PartyDetails: React.FC<{}> = () => {
           }} />
           <div className="border-b border-gray-500 p-2">
             <div className="text-sm">Assignee:</div>
-            <select className="w-full text-sm dark:bg-gray-800 px-2 rounded-sm" {...register('assigneeId')} defaultValue={getValues().assigneeId}>
-              {participants && [...participants, ({ name: "Nobody" } as Participant)].map((participant) => (
+            <select className="w-full text-sm dark:bg-gray-800 px-2 rounded-sm" {...register('assigneeId')}>
+              {participants && [({ name: "Nobody", id: "-1" } as Participant), ...participants].map((participant) => (
                 < option key={participant.id} value={participant.id!}>
                   {participant.name}
                 </option>
