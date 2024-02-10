@@ -9,12 +9,6 @@ const deleteTask = gql`mutation deleteTask(
   id: $id
   ) {
     id
-    title
-    description
-    status
-    assignee {
-      name
-    }
   }
 }`
 

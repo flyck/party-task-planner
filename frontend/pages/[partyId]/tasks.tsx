@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react"
 import AppLayout from "@/components/appLayout"
 import SubmitButton from "@/components/ui/minis/submitButton";
 import { useQuery, useSubscription } from "@apollo/client";
-import { CreatedParticipantDocument, CreatedParticipantSubscription, CreatedParticipantSubscriptionVariables, DeletedParticipantDocument, DeletedParticipantSubscription, DeletedParticipantSubscriptionVariables, GetParticipantsDocument, GetParticipantsQuery, GetParticipantsQueryVariables, GetTasksDocument, GetTasksQuery, GetTasksQueryVariables, Participant, Task, TaskStatus, UpdatedParticipantDocument, UpdatedParticipantSubscription, UpdatedParticipantSubscriptionVariables } from "@/lib/gql/graphql";
+import { CreatedTaskDocument, CreatedTaskSubscription, CreatedTaskSubscriptionVariables, DeletedTaskDocument, DeletedTaskSubscription, DeletedTaskSubscriptionVariables, GetParticipantsDocument, GetParticipantsQuery, GetParticipantsQueryVariables, GetTasksDocument, GetTasksQuery, GetTasksQueryVariables, Participant, Task, TaskStatus, UpdatedTaskDocument, UpdatedTaskSubscription, UpdatedTaskSubscriptionVariables } from "@/lib/gql/graphql";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -44,54 +44,57 @@ const Participants: React.FC<{}> = () => {
     },
   });
 
-  // const { data: newParticipantData, error: newParticipantError } = useSubscription<CreatedParticipantSubscription, CreatedParticipantSubscriptionVariables>(CreatedParticipantDocument, {
-  //   variables: { partyId },
-  // });
-  // const { data: deletedParticipantData, error: deletedParticipantError } = useSubscription<DeletedParticipantSubscription, DeletedParticipantSubscriptionVariables>(DeletedParticipantDocument, {
-  //   variables: { partyId },
-  // });
-  // const { data: updatedParticipantData, error: updatedParticipantError } = useSubscription<UpdatedParticipantSubscription, UpdatedParticipantSubscriptionVariables>(UpdatedParticipantDocument, {
-  //   variables: { partyId },
-  // });
+  const { data: newTaskData, error: newTaskError } = useSubscription<CreatedTaskSubscription, CreatedTaskSubscriptionVariables>(CreatedTaskDocument, {
+    variables: { partyId },
+  });
+  const { data: deletedTaskData, error: deletedTaskError } = useSubscription<DeletedTaskSubscription, DeletedTaskSubscriptionVariables>(DeletedTaskDocument, {
+    variables: { partyId },
+  });
+  const { data: updatedTaskData, error: updatedTaskError } = useSubscription<UpdatedTaskSubscription, UpdatedTaskSubscriptionVariables>(UpdatedTaskDocument, {
+    variables: { partyId },
+  });
 
-  // useEffect(() => {
-  //   if (newParticipantError) {
-  //     console.error("Error from subscription: " + JSON.stringify(newParticipantError))
-  //     toast.error("Error in live update.")
-  //   }
-  //   if (newParticipantData) {
-  //     const newP: Participant = newParticipantData?.createdParticipant as Participant
-  //     setParticipants([...participants, newP])
-  //   }
-  // }, [newParticipantData, newParticipantError])
+  useEffect(() => {
+    console.log("woo newTask called")
+    if (newTaskError) {
+      console.error("Error from subscription: " + JSON.stringify(newTaskError))
+      toast.error("Error in live update.")
+    }
+    if (newTaskData) {
+      const newTask: Task = newTaskData?.createdTask as Task
+      setTasks([...tasks, newTask])
+    }
+  }, [newTaskData, newTaskError])
 
-  // useEffect(() => {
-  //   if (deletedParticipantError) {
-  //     console.error("Error from subscription: " + JSON.stringify(newParticipantError))
-  //     toast.error("Error in live update.")
-  //   }
-  //   if (deletedParticipantData) {
-  //     const deletedP: Participant = deletedParticipantData?.deletedParticipant as Participant
-  //     setParticipants([...participants.filter((participant) => participant.id != deletedP.id)])
-  //   }
-  // }, [deletedParticipantData, deletedParticipantError])
+  useEffect(() => {
+    console.log("woo deletedTask called")
+    if (deletedTaskError) {
+      console.error("Error from subscription: " + JSON.stringify(newTaskError))
+      toast.error("Error in live update.")
+    }
+    if (deletedTaskData) {
+      const deletedTask: Task = deletedTaskData?.deletedTask as Task
+      setTasks([...tasks.filter((task) => task.id != deletedTask.id)])
+    }
+  }, [deletedTaskData, deletedTaskError])
 
-  // useEffect(() => {
-  //   if (updatedParticipantError) {
-  //     console.error("Error from subscription: " + JSON.stringify(newParticipantError))
-  //     toast.error("Error in live update.")
-  //   }
-  //   if (updatedParticipantData) {
-  //     const updatedP: Participant = updatedParticipantData?.updatedParticipant as Participant
-  //     const updatedParticipants = participants.map((participant) => {
-  //       if (participant.id != updatedP.id) return participant
-  //       return updatedP
-  //     })
-  //     // sort the participants to prevent an order mismatch
-  //     setParticipants(updatedParticipants)
-  //   }
+  useEffect(() => {
+    console.log("woo updatedTask called")
+    if (updatedTaskError) {
+      console.error("Error from subscription: " + JSON.stringify(newTaskError))
+      toast.error("Error in live update.")
+    }
+    if (updatedTaskData) {
+      const updatedTask: Task = updatedTaskData?.updatedTask as Task
+      const updatedTasks = tasks.map((task) => {
+        if (task.id != updatedTask.id) return task
+        return updatedTask
+      })
+      // sort the participants to prevent an order mismatch
+      setTasks(updatedTasks)
+    }
 
-  // }, [updatedParticipantData, updatedParticipantError])
+  }, [updatedTaskData, updatedTaskError])
 
   const handleCloseModal = () => { setIsModalOpen(false); };
 
