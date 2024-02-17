@@ -121,11 +121,15 @@ function sortedTasks(list: readonly Task[]) {
 }
 
 function getTaskDiv(task: Task, partyId: String) {
+  const assigneeString = task?.assignee?.name ? ` (${task?.assignee?.name})` : ''
+
   return <a key={task.id} href={`/${partyId}/tasks/${task.id}`}>
     <div className="flex items-center justify-between h-10 border-b border-gray-500">
       {/* Text on the left */}
       <div className="text-gray-800 dark:text-white p-2">
-        <div className="text-sm">{displayTaskStatus(task.status as TaskStatus)}{task.title || "?"}</div>
+        <div className="text-sm">
+          {displayTaskStatus(task.status as TaskStatus)}{task.title || "?"}{assigneeString}
+        </div>
       </div >
       {/* Buttons on the right */}
       {/*<div className="flex space-x-2 p-2">

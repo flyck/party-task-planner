@@ -115,7 +115,12 @@ const PartyDetails: React.FC<{}> = () => {
           ...register("description")
         }} />
         <div className="p-2">
-          <button className="bg-red-600 text-gray-200 rounded-sm w-full" onClick={() => handleDelete()}>
+          <button
+            aria-label="Delete Party"
+            className="bg-red-600 text-gray-200 rounded-sm w-full"
+            onClick={() => handleDelete()}
+            type="button"
+          >
             Delete
           </button>
         </div>

@@ -8,6 +8,7 @@ import { DeleteTaskDocument, DeleteTaskMutation, DeleteTaskMutationVariables, Ge
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
 import Scrollable from "@/components/scrollable";
+import { Skeleton } from "@/components/ui/skeleton";
 
 /**
  * v0 by Vercel.
@@ -27,7 +28,7 @@ const PartyDetails: React.FC<{}> = () => {
   } = useForm();
   const [deleteTask] = useMutation<DeleteTaskMutation, DeleteTaskMutationVariables>(DeleteTaskDocument);
 
-  const { loading: loadingTask } = useQuery<GetTaskQuery, GetTaskQueryVariables>(GetTaskDocument, {
+  const { loading: taskLoading } = useQuery<GetTaskQuery, GetTaskQueryVariables>(GetTaskDocument, {
     variables: { partyId, id },
     onCompleted: (result) => {
       if (!result.getTask) {
@@ -107,33 +108,36 @@ const PartyDetails: React.FC<{}> = () => {
     <form onSubmit={(event) => submit(event)}>
       <Scrollable>
         <div className="flex-1">
-          <Input title="Title" loading={loadingTask} props={{
+          <Input title="Title" loading={taskLoading} props={{
             type: "text", onFocus: () => redirect(),
             required: true,
             ...register("title")
           }} />
           <div className="border-b border-gray-500 p-2">
             <div className="text-sm">Assignee:</div>
-            <select className="w-full text-sm dark:bg-gray-800 px-2 rounded-sm" {...register('assigneeId')}
-              defaultValue={watch("assigneeId")}>
-              {participants && [({ name: "Nobody", id: null } as Participant), ...participants].map((participant) => (
-                <option key={participant.id} value={participant.id!}>
-                  {participant.name}
-                </option>
-              ))}
-            </select>
+            {participantsLoading ? <Skeleton className="h-6 bg-gray-200 rounded-sm" /> :
+              <select className="w-full text-sm dark:bg-gray-800 px-2 rounded-sm" {...register('assigneeId')}
+                defaultValue={watch("assigneeId")}>
+                {!participantsLoading && participants && [({ name: "Nobody", id: "-1" } as Participant), ...participants].map((participant) => (
+                  <option key={participant.id} value={participant.id!}>
+                    {participant.name}
+                  </option>
+                ))}
+              </select>
+            }
           </div>
           <div className="border-b border-gray-500 p-2">
             <div className="text-sm">Status:</div>
-            <select className="w-full text-sm dark:bg-gray-800 px-2 rounded-sm" {...register('status')} >
-              {statusList.map(([key, value]) => (
-                <option key={key} value={value}>
-                  {key}
-                </option>
-              ))}
-            </select>
+            {taskLoading ? <Skeleton className="h-6 bg-gray-200 rounded-sm" /> :
+              <select className="w-full text-sm dark:bg-gray-800 px-2 rounded-sm" {...register('status')} >
+                {statusList.map(([key, value]) => (
+                  <option key={key} value={value}>
+                    {key}
+                  </option>
+                ))}
+              </select>}
           </div>
-          <Input title="Description" loading={loadingTask} props={{
+          <Input title="Description" loading={taskLoading} props={{
             type: "text", onFocus: () => redirect(),
             ...register("description")
           }} />

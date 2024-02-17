@@ -12,7 +12,7 @@ export default function Home() {
         <h1 className="text-2xl font-serif mb-10">Party Task Planner</h1>
         <Link href="/create">
           <Button
-            aria-label="Create Button"
+            aria-label="New Party"
             className="bg-blue-500 mx-auto flex items-center justify-center h-14 w-14 rounded"
             variant="outline"
           >

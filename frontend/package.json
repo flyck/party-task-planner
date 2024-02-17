@@ -6,6 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "test:e2e": "playwright test",
+    "test:record": "playwright codegen --viewport-size=800,600 http://localhost:3000",
     "lint": "next lint",
     "codegen": "graphql-codegen --config codegen.ts",
     "patch-package": "patch-package",
@@ -33,6 +35,7 @@
   "devDependencies": {
     "@graphql-codegen/cli": "5.0.0",
     "@graphql-codegen/client-preset": "4.1.0",
+    "@playwright/test": "^1.41.2",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",

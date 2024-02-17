@@ -7,8 +7,8 @@ In this app I want to try a bunch of new things:
 - [x] Automated releases with github actions
 - [x] Appsync javascript resolvers
 - [x] Appsync subscriptions for real-time updates everywhere
-- [ ] Playwright frontend tests
-- [ ] HTMX instead of react & apollo
+- [x] Playwright frontend tests
+- [ ] HTMX instead of react & appsync
 
 ## DX Notes
 
@@ -24,6 +24,15 @@ In this app I want to try a bunch of new things:
 Vercel provides CI/CD jobs out of the box. Played around with overriding the jobs
 (https://vercel.com/guides/how-can-i-use-github-actions-with-vercel) before finding out these jobs
 can be customized in the vercel project settings (not a file in this repo).
+
+## Playwright Tests
+
+E2E tests.
+
+Easily record tests ([docs](https://playwright.dev/docs/codegen#emulation)):
+```
+npx playwright codegen --viewport-size=800,600 http://localhost:3000
+```
 
 ## SSR
 
