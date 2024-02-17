@@ -40,7 +40,6 @@ const PartyDetails: React.FC<{}> = () => {
       setValue("assigneeId", assignee?.id || "-1")
       setValue("description", description)
       setValue("status", status)
-      console.log(getValues())
     },
     onError: (result) => {
       console.error(result)
@@ -104,7 +103,6 @@ const PartyDetails: React.FC<{}> = () => {
     window.location.assign(`/${partyId}/tasks`)
   }
   const statusList = Object.entries(TaskStatus)
-  console.log(statusList)
 
   return (<AppLayout title="Task Details" left={""} right={""}>
     <form onSubmit={(event) => submit(event)}>
@@ -117,9 +115,10 @@ const PartyDetails: React.FC<{}> = () => {
           }} />
           <div className="border-b border-gray-500 p-2">
             <div className="text-sm">Assignee:</div>
-            <select className="w-full text-sm dark:bg-gray-800 px-2 rounded-sm" {...register('assigneeId')}>
-              {participants && [({ name: "Nobody", id: "-1" } as Participant), ...participants].map((participant) => (
-                < option key={participant.id} value={participant.id!}>
+            <select className="w-full text-sm dark:bg-gray-800 px-2 rounded-sm" {...register('assigneeId')}
+              defaultValue={watch("assigneeId")}>
+              {participants && [({ name: "Nobody", id: null } as Participant), ...participants].map((participant) => (
+                <option key={participant.id} value={participant.id!}>
                   {participant.name}
                 </option>
               ))}
