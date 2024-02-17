@@ -5,7 +5,8 @@ $args: UpdateTask!
 ) {
  updateTask(
   args: $args
-  ) {
+ ) {
+    partyId
     id
     title
     description

@@ -20,7 +20,7 @@ const documents = {
     "subscription createdTask(\n  $partyId: String!\n) {\n createdTask(\n    partyId: $partyId\n  ) {\n    partyId\n    id\n    title\n    status\n    assignee {\n      name\n    }\n    description\n  }\n}": types.CreatedTaskDocument,
     "mutation deleteParticipant(\n  $partyId: String!\n  $id: String!\n) {\n deleteParticipant(\n  partyId: $partyId\n  id: $id\n  ) {\n    partyId\n    id\n    name\n    email\n    invitationSent\n  }\n}": types.DeleteParticipantDocument,
     "mutation deleteParty(\n  $id: String!\n) {\n deleteParty(\n  id: $id\n  ) {\n    id\n  }\n}": types.DeletePartyDocument,
-    "mutation deleteTask(\n  $partyId: String!\n  $id: String!\n) {\n deleteTask(\n  partyId: $partyId\n  id: $id\n  ) {\n    id\n  }\n}": types.DeleteTaskDocument,
+    "mutation deleteTask(\n  $partyId: String!\n  $id: String!\n) {\n deleteTask(\n  partyId: $partyId\n  id: $id\n  ) {\n    partyId\n    id\n  }\n}": types.DeleteTaskDocument,
     "subscription deletedParticipant(\n  $partyId: String!\n) {\n deletedParticipant(\n  partyId: $partyId\n) {\n    id\n    name\n    email\n    invitationSent\n  }\n}": types.DeletedParticipantDocument,
     "subscription deletedTask(\n  $partyId: String!\n) {\n deletedTask(\n  partyId: $partyId\n  ) {\n    id\n  }\n}": types.DeletedTaskDocument,
     "query getParticipant(\n  $partyId: String!\n  $id: String!\n) {\n getParticipant(\n  partyId: $partyId\n  id: $id\n) {\n    id\n    name\n    email\n    invitationSent\n  }\n}": types.GetParticipantDocument,
@@ -30,7 +30,7 @@ const documents = {
     "query getTasks(\n  $partyId: String!\n  $limit: Int\n  $nextToken: String\n) {\n getTasks(\n  partyId: $partyId\n  limit: $limit\n  nextToken: $nextToken\n  ) {\n    items {\n      id\n      title\n      description\n      status\n      assignee {\n        name\n      }\n    }\n    nextToken\n  }\n}": types.GetTasksDocument,
     "mutation updateParticipant(\n$args: UpdateParticipant!\n) {\n updateParticipant(\n  args: $args\n  ) {\n    partyId\n    id\n    name\n    email\n    invitationSent\n  }\n}": types.UpdateParticipantDocument,
     "mutation updateParty(\n  $args: UpdateParty!\n) {\n  updateParty(args: $args) {\n    id\n    title\n    description\n    location\n    date\n  }\n}": types.UpdatePartyDocument,
-    "mutation updateTask(\n$args: UpdateTask!\n) {\n updateTask(\n  args: $args\n  ) {\n    id\n    title\n    description\n    status\n    assignee {\n      name\n    }\n  }\n}": types.UpdateTaskDocument,
+    "mutation updateTask(\n$args: UpdateTask!\n) {\n updateTask(\n  args: $args\n ) {\n    partyId\n    id\n    title\n    description\n    status\n    assignee {\n      name\n    }\n  }\n}": types.UpdateTaskDocument,
     "subscription updatedParticipant(\n  $partyId: String!\n) {\n updatedParticipant(\n  partyId: $partyId\n) {\n    id\n    name\n    email\n    invitationSent\n  }\n}": types.UpdatedParticipantDocument,
     "subscription updatedParty(\n  $id: String!\n) {\n updatedParty(\n  id: $id\n) {\n    id\n    title\n    description\n    location\n    date\n  }\n}": types.UpdatedPartyDocument,
     "subscription updatedTask(\n  $partyId: String!\n) {\n updatedTask(\n  partyId: $partyId\n) {\n    id\n    title\n    description\n    status\n    assignee {\n      name\n    }\n  }\n}": types.UpdatedTaskDocument,
@@ -81,7 +81,7 @@ export function graphql(source: "mutation deleteParty(\n  $id: String!\n) {\n de
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "mutation deleteTask(\n  $partyId: String!\n  $id: String!\n) {\n deleteTask(\n  partyId: $partyId\n  id: $id\n  ) {\n    id\n  }\n}"): (typeof documents)["mutation deleteTask(\n  $partyId: String!\n  $id: String!\n) {\n deleteTask(\n  partyId: $partyId\n  id: $id\n  ) {\n    id\n  }\n}"];
+export function graphql(source: "mutation deleteTask(\n  $partyId: String!\n  $id: String!\n) {\n deleteTask(\n  partyId: $partyId\n  id: $id\n  ) {\n    partyId\n    id\n  }\n}"): (typeof documents)["mutation deleteTask(\n  $partyId: String!\n  $id: String!\n) {\n deleteTask(\n  partyId: $partyId\n  id: $id\n  ) {\n    partyId\n    id\n  }\n}"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -121,7 +121,7 @@ export function graphql(source: "mutation updateParty(\n  $args: UpdateParty!\n)
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "mutation updateTask(\n$args: UpdateTask!\n) {\n updateTask(\n  args: $args\n  ) {\n    id\n    title\n    description\n    status\n    assignee {\n      name\n    }\n  }\n}"): (typeof documents)["mutation updateTask(\n$args: UpdateTask!\n) {\n updateTask(\n  args: $args\n  ) {\n    id\n    title\n    description\n    status\n    assignee {\n      name\n    }\n  }\n}"];
+export function graphql(source: "mutation updateTask(\n$args: UpdateTask!\n) {\n updateTask(\n  args: $args\n ) {\n    partyId\n    id\n    title\n    description\n    status\n    assignee {\n      name\n    }\n  }\n}"): (typeof documents)["mutation updateTask(\n$args: UpdateTask!\n) {\n updateTask(\n  args: $args\n ) {\n    partyId\n    id\n    title\n    description\n    status\n    assignee {\n      name\n    }\n  }\n}"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

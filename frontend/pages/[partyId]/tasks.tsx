@@ -131,11 +131,9 @@ function getTaskDiv(task: Task, partyId: String) {
         <div className="text-sm">{displayTaskStatus(task.status as TaskStatus)}{task.title || "?"}</div>
       </div >
       {/* Buttons on the right */}
-      <div className="flex space-x-2 p-2">
-        <a href={`/${partyId}/task/${task.id}/chat`}>
-          <button className="bg-yellow-500 h-6 mt-1 px-3 rounded">🗨</button>
-        </a>
-      </div>
+      {/*<div className="flex space-x-2 p-2">
+        <button className="bg-yellow-500 h-6 mt-1 px-3 rounded" onClick={() => window.location.assign("/chat")}>🗨</button>
+        </div>*/}
     </div>
   </a>
 }

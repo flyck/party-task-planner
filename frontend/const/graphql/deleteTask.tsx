@@ -8,6 +8,7 @@ const deleteTask = gql`mutation deleteTask(
   partyId: $partyId
   id: $id
   ) {
+    partyId
     id
   }
 }`
