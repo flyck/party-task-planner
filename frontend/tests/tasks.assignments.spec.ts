@@ -36,7 +36,7 @@ test('Basic Task Creation Test', async ({ page }) => {
   await expect(page.locator('select[name="assigneeId"]')).toHaveValue('Nobody');
   await page.getByRole('button', { name: 'Ok' }).click();
 
-  await page.getByRole('link', { name: '❗' }).click();
+  await page.getByRole('link', { name: 'Buy Beer Todo' }).click();
   await page.locator('select[name="assigneeId"]').selectOption('Nobody');
   // all participants and nobody should be an option
   await expect(page.locator('select[name="assigneeId"]')).toContainText('Ben');
