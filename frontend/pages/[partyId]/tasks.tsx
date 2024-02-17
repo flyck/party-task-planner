@@ -10,6 +10,7 @@ import Modal from "@/components/modal";
 import CreateParticipant from "@/components/createParticipant";
 import Scrollable from "@/components/scrollable";
 import CreateTask from "@/components/createTask";
+import { Badge } from "@/components/ui/badge";
 
 /**
  * v0 by Vercel.
@@ -128,9 +129,12 @@ function getTaskDiv(task: Task, partyId: String) {
       {/* Text on the left */}
       <div className="text-gray-800 dark:text-white p-2">
         <div className="text-sm">
-          {displayTaskStatus(task.status as TaskStatus)}{task.title || "?"}{assigneeString}
+          {task.title || "?"}{assigneeString}
         </div>
       </div >
+      <div className="flex space-x-2 p-2">
+        {displayTaskStatus(task.status as TaskStatus)}
+      </div>
       {/* Buttons on the right */}
       {/*<div className="flex space-x-2 p-2">
         <button className="bg-yellow-500 h-6 mt-1 px-3 rounded" onClick={() => window.location.assign("/chat")}>🗨</button>
@@ -141,9 +145,9 @@ function getTaskDiv(task: Task, partyId: String) {
 
 function displayTaskStatus(status: TaskStatus) {
   switch (status) {
-    case (TaskStatus.Todo): return "❗";
-    case (TaskStatus.Done): return "☑";
-    case (TaskStatus.Pending): return "👷"
+    case (TaskStatus.Todo): return <Badge className="bg-red-500 text-white dark:bg-red-500 dark:text-gray-900">Todo</Badge>;
+    case (TaskStatus.Done): return <Badge className="bg-green-500 text-white dark:bg-green-400 dark:text-gray-900">Done</Badge>;
+    case (TaskStatus.Pending): return <Badge className="bg-yellow-500 text-white dark:bg-yellow-400 dark:text-gray-900">Pending</Badge>;
     default: return "?"
   }
 }
