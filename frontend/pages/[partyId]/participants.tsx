@@ -84,7 +84,7 @@ const Participants: React.FC<{}> = () => {
 
   const handleCloseModal = () => { setIsModalOpen(false); };
 
-  return (<AppLayout title="Participants" left={`/${partyId}`} right={""}>
+  return (<AppLayout title="Participants" left={`/${partyId}`} right={`/${partyId}/tasks`}>
     <Scrollable>
       {loading ? skeleton() : sortedParticipants(participants).map((guy) => getUserElement(guy, partyId))}
     </Scrollable>

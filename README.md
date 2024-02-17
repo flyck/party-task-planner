@@ -46,6 +46,13 @@ Should I use more SSR for my app?
   - This package has a missing dependency on "uuid", which is why I added it as a frontend project
     dependency: [hint](https://github.com/awslabs/aws-mobile-appsync-sdk-js/issues/695)
 
+## DynamoDB
+
+Might be cool to have the IDs include their keytype (i.e. party#123123 instead of just 123123)
+like prescribed
+[here](https://aws.amazon.com/blogs/database/effective-data-sorting-with-amazon-dynamodb/). Will
+have to be hidden in the URL though because this id would be kind of ugly to have in the url.
+
 ## Single Page Application
 
 Should this app be a single page application? Probably yes, but it doesnt seem straightforward

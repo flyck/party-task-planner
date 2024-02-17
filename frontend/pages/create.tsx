@@ -41,7 +41,6 @@ const PartyDetails: React.FC<{}> = () => {
 
   const submit = async (event: React.FormEvent) => {
     event.preventDefault();
-    console.log(getValues());
     let id = ""
     try {
       const { data, errors } = await createParty({
@@ -54,7 +53,6 @@ const PartyDetails: React.FC<{}> = () => {
       console.error("Caught: " + error)
       return
     }
-    console.log("party created:" + id)
     window.location.assign(`/${id}`)
   };
 

@@ -33,7 +33,6 @@ const EditUser: React.FC<{}> = () => {
 
   const submit = (event: React.FormEvent) => {
     event.preventDefault();
-    console.log(formData);
     localStorage.setItem("userEmail", formData.userEmail)
     localStorage.setItem("userName", formData.userName)
     // BUGBUG wont work if somebody deeplinked this. can be solved via querystring
