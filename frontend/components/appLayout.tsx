@@ -21,9 +21,9 @@ export default function AppLayout({
   return (
     <main className="flex min-h-screen flex-col items-center justify-between">
       <ToastContainer />
-      <div className="p-4 mx-auto my-auto">
+      <div className="my-auto mx-auto p-4">
         <div id="modal-root" className="z-50"></div>
-        <div className="mb-4 flex w-80">
+        <div className="mb-4 flex w-96 sm:w-80">
           {left ? <a href={left} className="flex" aria-label="Go Left">
             <ChevronLeftIcon className="h-7 w-7 self-center mr-2" />
           </a> : <div className="flex">
