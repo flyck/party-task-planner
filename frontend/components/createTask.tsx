@@ -56,7 +56,7 @@ const CreateParticipant: React.FC<{ participants: Participant[], participantsLoa
       <div className="border-b border-gray-500 p-2">
         <div className="text-sm">Assignee:</div>
         <select className="w-full text-sm dark:bg-gray-800 px-2 rounded-sm" {...register('assigneeId')}>
-          {!participantsLoading && participants.map((participant) => (
+          {!participantsLoading && [({ name: "Nobody", id: null } as Participant), ...participants].map((participant) => (
             <option key={participant.id} value={participant.id!}>
               {participant.name}
             </option>

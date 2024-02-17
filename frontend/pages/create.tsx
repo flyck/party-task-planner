@@ -77,7 +77,7 @@ const PartyDetails: React.FC<{}> = () => {
           ...register("description")
         }} />
       </Scrollable>
-      <SubmitButton loading={createPartyLoading} props={{ disabled: isUserSet() }} />
+      <SubmitButton loading={createPartyLoading} props={{ disabled: isUserSet() }} aria-label="Create Party" />
     </form>
   </AppLayout>
   )

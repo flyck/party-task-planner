@@ -24,7 +24,7 @@ export default function AppLayout({
       <div className="p-4 mx-auto my-auto">
         <div id="modal-root" className="z-50"></div>
         <div className="mb-4 flex w-80">
-          {left ? <a href={left} className="flex">
+          {left ? <a href={left} className="flex" aria-label="Go Left">
             <ChevronLeftIcon className="h-7 w-7 self-center mr-2" />
           </a> : <div className="flex">
             <div className="h-7 w-7 self-center mr-2" />
@@ -39,7 +39,7 @@ export default function AppLayout({
               {children}
             </div>
           </div>
-          {right ? <a href={right} className="flex">
+          {right ? <a href={right} className="flex" aria-label="Go Right">
             <ChevronRightIcon className="h-7 w-7 self-center ml-2" />
           </a> : <div className="flex">
             <div className="h-7 w-7 self-center ml-2" />
