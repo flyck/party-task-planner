@@ -70,7 +70,6 @@ const PartyDetails: React.FC<{}> = () => {
 
   const submit = async (event: React.FormEvent) => {
     event.preventDefault();
-    console.log(getValues());
     try {
       const { errors } = await updateParty({
         variables: { args: { id, ...getValues() } }
