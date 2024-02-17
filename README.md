@@ -4,6 +4,7 @@
 
 In this app I want to try a bunch of new things:
 - [x] Vercel for frontend hosting
+- [x] v0 for AI-supported UI design
 - [x] Automated releases with github actions
 - [x] Appsync javascript resolvers
 - [x] Appsync subscriptions for real-time updates everywhere
