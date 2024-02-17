@@ -47,7 +47,6 @@ const CreateParticipant: React.FC<{}> = () => {
       toast.error("Couldnt create participant.")
       console.error("Caught: " + error)
     }
-    console.log("Participant created:" + id)
     window.location.assign(`/${partyId}/participants`)
   };
 

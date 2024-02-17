@@ -43,7 +43,6 @@ const CreateParticipant: React.FC<{ participants: Participant[], participantsLoa
       toast.error("Couldnt create task.")
       console.error("Caught: " + error)
     }
-    console.log("Task created:" + id)
     window.location.assign(`/${partyId}/tasks`)
   };
 

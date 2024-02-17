@@ -72,7 +72,6 @@ const PartyDetails: React.FC<{}> = () => {
 
   const submit = async (event: React.FormEvent) => {
     event.preventDefault();
-    console.log(getValues());
     try {
       let userInput = {
         ...getValues()

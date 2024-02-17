@@ -55,7 +55,6 @@ const Participants: React.FC<{}> = () => {
   });
 
   useEffect(() => {
-    console.log("woo newTask called")
     if (newTaskError) {
       console.error("Error from subscription: " + JSON.stringify(newTaskError))
       toast.error("Error in live update.")
@@ -67,7 +66,6 @@ const Participants: React.FC<{}> = () => {
   }, [newTaskData, newTaskError])
 
   useEffect(() => {
-    console.log("woo deletedTask called")
     if (deletedTaskError) {
       console.error("Error from subscription: " + JSON.stringify(newTaskError))
       toast.error("Error in live update.")
@@ -79,7 +77,6 @@ const Participants: React.FC<{}> = () => {
   }, [deletedTaskData, deletedTaskError])
 
   useEffect(() => {
-    console.log("woo updatedTask called")
     if (updatedTaskError) {
       console.error("Error from subscription: " + JSON.stringify(newTaskError))
       toast.error("Error in live update.")
