@@ -76,7 +76,7 @@ input UpdateTask {
   id: String!
   title: String
   status: TaskStatus
-  description: Boolean
+  description: String
   assigneeId: String
 }
 
