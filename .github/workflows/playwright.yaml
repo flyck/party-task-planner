@@ -9,6 +9,9 @@ on:
     paths:
       - 'frontend/**/*'
 
+# job with caching based on:
+# https://dev.to/ayomiku222/how-to-cache-playwright-browser-on-github-actions-51o6
+
 jobs:
   test:
     timeout-minutes: 10
@@ -23,7 +26,7 @@ jobs:
           node-version: 18
       - name: Get installed Playwright version
         id: playwright-version
-        run: echo "PLAYWRIGHT_VERSION=$(node -e "console.log(require('./package-lock.json').devDependencies['@playwright/test'].version)")" >> $GITHUB_ENV
+        run: echo "PLAYWRIGHT_VERSION=$(npm list --json --depth=0 '@playwright/test' | node -e "console.log(JSON.parse(require('fs').readFileSync(0)).dependencies['@playwright/test'].version)")" >> $GITHUB_ENV
       - name: Cache playwright binaries
         uses: actions/cache@v3
         id: playwright-cache
