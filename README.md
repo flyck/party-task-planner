@@ -9,7 +9,7 @@ In this app I want to try a bunch of new things:
 - [x] Appsync javascript resolvers
 - [x] Appsync subscriptions for real-time updates everywhere
 - [x] Playwright frontend tests
-- [ ] HTMX instead of react & appsync
+- [x] HTMX instead of react & appsync -> [astro-party](https://github.com/flyck/astro-party)
 
 ## DX Notes
 
