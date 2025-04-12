@@ -1,5 +1,7 @@
 # Party Task Planner
 
+Taken offline on 12.04.2025.
+
 ## New Technologies
 
 In this app I want to try a bunch of new things:
